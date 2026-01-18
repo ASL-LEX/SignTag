@@ -1,0 +1,63 @@
+name: admin
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'packages/admin/**'
+    branches:
+      - main
+    tags:
+      - "v*.*.*"
+  pull_request:
+    paths:
+      - 'packages/admin/**'
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Check for Linting Errors
+    defaults:
+      run:
+        working-directory: packages/server
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: NPM Install
+        run: npm install --only=dev
+        shell: bash
+
+      - name: Check for Linting Issues
+        run: npm run prettier
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build Code
+    defaults:
+      run:
+        working-directory: packages/admin
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: NPM Install
+        run: npm install
+        shell: bash
+
+      - name: Build
+        run: npm run build
