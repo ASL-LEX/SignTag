@@ -2,6 +2,8 @@ import { Controller, Delete, Get, Post, Put } from "@nestjs/common";
 
 @Controller('api/admin/project')
 export class ProjectAdminController {
+  constructor() {}
+
   @Post()
   async create(): Promise<void> {
 
