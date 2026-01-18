@@ -1,19 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { Admin, Resource, ListGuesser } from "react-admin";
-import jsonServerProvider from "ra-data-json-server";
+import { Admin, Resource, ListGuesser } from 'react-admin';
+import jsonServerProvider from 'ra-data-json-server';
 
-const dataProvider = jsonServerProvider("https://jsonplaceholder.typicode.com");
+const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
 
 function App() {
-
   return (
     <Admin dataProvider={dataProvider}>
       <Resource name="posts" list={ListGuesser} />
       <Resource name="comments" list={ListGuesser} />
     </Admin>
-  )
+  );
 }
 
-export default App
+export default App;
