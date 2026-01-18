@@ -9,6 +9,7 @@ import { SharedModule } from 'src/shared/shared.module';
 import { JwtModule } from '../jwt/jwt.module';
 import { PermissionModule } from '../permission/permission.module';
 import { OrganizationModule } from '../organization/organization.module';
+import { ProjectAdminController } from './controllers/project-admin.controller';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { OrganizationModule } from '../organization/organization.module';
     OrganizationModule
   ],
   providers: [ProjectResolver, ProjectService, ProjectPipe],
-  exports: [ProjectPipe, ProjectService]
+  exports: [ProjectPipe, ProjectService],
+  controllers: [ProjectAdminController]
 })
 export class ProjectModule {}
