@@ -90,7 +90,7 @@ export class TagService {
   }
 
   async countTrainingTagForStudy(study: Study, user: string): Promise<number> {
-    return this.tagModel.count({ study: study._id, user: user, training: true });
+    return this.tagModel.countDocuments({ study: study._id, user: user, training: true });
   }
 
   /**
@@ -327,7 +327,7 @@ export class TagService {
       studyID = study._id;
     }
 
-    return this.tagModel.count({ study: studyID, training: false });
+    return this.tagModel.countDocuments({ study: studyID, training: false });
   }
 
   async getCompleteTags(study: Study | string): Promise<Tag[]> {
