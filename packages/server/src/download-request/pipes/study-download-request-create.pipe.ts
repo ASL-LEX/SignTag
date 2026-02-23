@@ -3,9 +3,10 @@ import { StudyService } from '../../study/study.service';
 import { CreateStudyDownloadRequest } from '../dtos/study-download-request-create.dto';
 
 @Injectable()
-export class CreateStudyDownloadPipe
-  implements PipeTransform<CreateStudyDownloadRequest, Promise<CreateStudyDownloadRequest>>
-{
+export class CreateStudyDownloadPipe implements PipeTransform<
+  CreateStudyDownloadRequest,
+  Promise<CreateStudyDownloadRequest>
+> {
   constructor(private readonly studyService: StudyService) {}
 
   async transform(value: CreateStudyDownloadRequest): Promise<CreateStudyDownloadRequest> {
