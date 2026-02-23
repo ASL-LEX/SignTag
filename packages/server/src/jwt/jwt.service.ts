@@ -12,7 +12,10 @@ interface PublicKeys {
 export class JwtService {
   private publicKeys: PublicKeys | null = null;
 
-  constructor(private readonly httpService: HttpService, private readonly configService: ConfigService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService
+  ) {}
 
   private async queryForPublicKey(): Promise<PublicKeys> {
     const query = this.configService.getOrThrow('auth.publicKeyUrl');

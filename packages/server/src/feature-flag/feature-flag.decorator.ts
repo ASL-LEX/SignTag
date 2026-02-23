@@ -1,3 +1,3 @@
-import { Reflector } from "@nestjs/core";
+import { Reflector } from '@nestjs/core';
 
 export const FeatureFlag = Reflector.createDecorator<string>();

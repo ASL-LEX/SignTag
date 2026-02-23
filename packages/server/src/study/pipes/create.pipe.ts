@@ -5,7 +5,10 @@ import { StudyService } from '../study.service';
 
 @Injectable()
 export class StudyCreatePipe implements PipeTransform<StudyCreate, Promise<StudyCreate>> {
-  constructor(private readonly studyService: StudyService, private readonly projectPipe: ProjectPipe) {}
+  constructor(
+    private readonly studyService: StudyService,
+    private readonly projectPipe: ProjectPipe
+  ) {}
 
   async transform(value: StudyCreate): Promise<StudyCreate> {
     // Validate that the project exists

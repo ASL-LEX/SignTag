@@ -5,7 +5,10 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FeatureFlagGuard implements CanActivate {
-  constructor (private readonly reflector: Reflector, private readonly configService: ConfigService) {}
+  constructor(
+    private readonly reflector: Reflector,
+    private readonly configService: ConfigService
+  ) {}
 
   canActivate(context: ExecutionContext): boolean {
     const targetFeatureFlagName = this.reflector.get(FeatureFlag, context.getHandler());
@@ -27,7 +30,7 @@ export class FeatureFlagGuard implements CanActivate {
 
     // Otherwise we need the flag value to be some capitalization of 'true'
     if (featureFlagValue.toLowerCase() === 'true') {
-        return true;
+      return true;
     }
     throw failureState;
   }
