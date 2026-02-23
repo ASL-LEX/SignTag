@@ -22,7 +22,7 @@ jobs:
     name: Check for Linting Errors
     defaults:
       run:
-        working-directory: packages/server
+        working-directory: packages/admin
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
