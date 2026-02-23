@@ -14,7 +14,10 @@ import { StudyDownloadRequestPipe } from '../pipes/study-download-request.pipe';
 
 @Resolver(() => StudyDownloadRequest)
 export class StudyDownloadRequestResolver {
-  constructor(private readonly studyDownloadService: StudyDownloadService, private readonly studyPipe: StudyPipe) {}
+  constructor(
+    private readonly studyDownloadService: StudyDownloadService,
+    private readonly studyPipe: StudyPipe
+  ) {}
 
   @Mutation(() => StudyDownloadRequest)
   @UseGuards(JwtAuthGuard, OrganizationGuard)
