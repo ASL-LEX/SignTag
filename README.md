@@ -28,4 +28,7 @@ SignTag is designed to be a collection platform and to not infringe on your abil
 
 ## Running SignTag Yourself
 
-SignTag is 
+> [!NOTE]
+>
+> SignTag currently relies on Google Cloud Platform (GCP). GCP Identity Platform for authentication, GCP Buckets for storage of the videos/images, and GCP Cloud Run for zipping videos/images for exporting. We aim to eventually decouple the platform and include open source alternatives.
+
