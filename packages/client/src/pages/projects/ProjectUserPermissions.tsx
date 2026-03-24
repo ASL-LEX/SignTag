@@ -129,11 +129,11 @@ const UserPermissionTable: React.FC<{ project: Project }> = ({ project }) => {
       initialState={{
         pagination: {
           paginationModel: {
-            pageSize: 5
+            pageSize: 25
           }
         }
       }}
-      pageSizeOptions={[5]}
+      pageSizeOptions={[5, 10, 25]}
       disableRowSelectionOnClick
     />
   );
