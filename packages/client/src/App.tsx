@@ -16,7 +16,7 @@ import { TagView } from './pages/studies/TagView';
 import { DatasetControls } from './pages/datasets/DatasetControls';
 import { AuthProvider, useAuth } from './context/Auth.context';
 import { AdminGuard } from './guards/AdminGuard';
-import { CssBaseline, Box, styled, CircularProgress, Typography } from '@mui/material';
+import { Box, styled, CircularProgress, Typography } from '@mui/material';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { SideBar } from './components/SideBar.component';
 import { ProjectProvider } from './context/Project.context';
