@@ -58,7 +58,7 @@ export const TagTrainingComponent: React.FC<TagTrainingComponentProps> = (props)
       headerName: 'Training',
       width: 200,
       sortable: false,
-      valueGetter: (params) => !!trainingSet.find((id) => params.row._id == id),
+      valueGetter: (_value, row) => !!trainingSet.find((id) => row._id == id),
       renderHeader: (_params: GridColumnHeaderParams) => {
         const grid = useGridApiContext();
         const entryIDs = new Set<string>(Array.from(grid.current.getRowModels().keys()).map((id) => id.toString()));
@@ -88,7 +88,7 @@ export const TagTrainingComponent: React.FC<TagTrainingComponentProps> = (props)
       headerName: 'Available for Tagging',
       width: 250,
       sortable: false,
-      valueGetter: (params) => !!taggingSet.find((id) => params.row._id == id),
+      valueGetter: (_value, row) => !!taggingSet.find((id) => row._id == id),
       renderHeader: (_params: GridColumnHeaderParams) => {
         const grid = useGridApiContext();
         const entryIDs = new Set<string>(Array.from(grid.current.getRowModels().keys()).map((id) => id.toString()));

@@ -61,7 +61,7 @@ function FieldSelector<T>(props: FieldSelectorProps<T>) {
       <InputLabel>{props.label}</InputLabel>
       <Select
         value={props.value || ''}
-        onChange={(event, _child) => handleChange(event.target.value)}
+        onChange={(event, _child) => handleChange(event.target.value as any)}
         renderValue={(option) => props.display(option)}
       >
         {props.options.map((option) => (

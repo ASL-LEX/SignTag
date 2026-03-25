@@ -164,7 +164,7 @@ const UserPermissionTable: React.FC<{ study: Study }> = ({ study }) => {
     {
       field: 'email',
       headerName: t('common.email'),
-      valueGetter: (params) => params.row.user.email,
+      valueGetter: (_value, row) => row.user.email,
       flex: 1.75,
       editable: false
     },
@@ -172,7 +172,7 @@ const UserPermissionTable: React.FC<{ study: Study }> = ({ study }) => {
       field: 'studyAdmin',
       type: 'boolean',
       headerName: t('components.userPermissions.studyAdmin'),
-      valueGetter: (params) => params.row.isStudyAdmin,
+      valueGetter: (_value, row) => row.isStudyAdmin,
       renderCell: (params: GridRenderCellParams) => {
         return <EditStudyAdminSwitch permission={params.row} currentUser={user!} study={study} refetch={refetch} />;
       },
@@ -182,7 +182,7 @@ const UserPermissionTable: React.FC<{ study: Study }> = ({ study }) => {
     {
       field: 'contributor',
       headerName: t('components.userPermissions.contributor'),
-      valueGetter: (params) => params.row.isContributor,
+      valueGetter: (_value, row) => row.isContributor,
       renderCell: (params: GridRenderCellParams) => {
         return <EditContributorSwitch permission={params.row} currentUser={user!} study={study} refetch={refetch} />;
       },
@@ -192,7 +192,7 @@ const UserPermissionTable: React.FC<{ study: Study }> = ({ study }) => {
     {
       field: 'trained',
       headerName: t('components.userPermissions.trained'),
-      valueGetter: (params) => params.row.isTrained,
+      valueGetter: (_value, row) => row.isTrained,
       renderCell: (params: GridRenderCellParams) => {
         return <EditTrainedSwitch permission={params.row} currentUser={user!} study={study} refetch={refetch} />;
       },
