@@ -1,8 +1,11 @@
+import { Admin } from "react-admin";
 
 
 export const AdminLanding: React.FC = () => {
 
   return (
-    <p>Admin Page</p>
+    <Admin basename="/admin">
+
+    </Admin>
   );
 }

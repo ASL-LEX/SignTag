@@ -10,7 +10,7 @@ export interface NavBarProps {
 
 export const NavBar: FC<NavBarProps> = ({ drawerOpen, setDrawerOpen }) => {
   return (
-    <AppBar>
+    <AppBar position='sticky'>
       <Toolbar sx={{ backgroundColor: 'white' }}>
         <IconButton
           size="large"

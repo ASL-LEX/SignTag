@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 import { HomePage } from './pages/Home';
 import { ThemeProvider } from './theme/ThemeProvider';
@@ -169,7 +168,6 @@ const AppReady: FC = () => {
       <AuthProvider user={user}>
         <ConfirmationProvider>
           <SnackbarProvider>
-            <CssBaseline />
             <AppInternal />
           </SnackbarProvider>
         </ConfirmationProvider>
