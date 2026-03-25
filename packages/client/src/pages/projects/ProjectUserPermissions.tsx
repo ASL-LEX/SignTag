@@ -103,7 +103,7 @@ const UserPermissionTable: React.FC<{ project: Project }> = ({ project }) => {
     {
       field: 'email',
       headerName: t('common.email'),
-      valueGetter: (params) => params.row.user.email,
+      valueGetter: (_value, row) => row.user.email,
       flex: 1.75,
       editable: false
     },
@@ -111,7 +111,7 @@ const UserPermissionTable: React.FC<{ project: Project }> = ({ project }) => {
       field: 'projectAdmin',
       type: 'boolean',
       headerName: t('components.projectUserPermissions.projectAdmin'),
-      valueGetter: (params) => params.row.hasRole,
+      valueGetter: (_value, row) => row.hasRole,
       renderCell: (params: GridRenderCellParams) => {
         return <EditAdminSwitch permission={params.row} currentUser={user!} project={project} refetch={refetch} />;
       },
