@@ -47,21 +47,21 @@ export const getAslLexCols: GetGridColDefs = (uischema, schema, property) => {
       field: `${property}-video`,
       headerName: `${property}: ${i18next.t('common.video')}`,
       width: 350,
-      valueGetter: (params) => params.row.data[property]?.field?.lexiconEntry.video,
+      valueGetter: (_value, row) => row.data[property]?.field?.lexiconEntry.video,
       renderCell: (params) =>
         params.value && <AslLexGridViewVideo data={params.value} schema={schema} uischema={uischema} />
     },
     {
       field: `${property}-key`,
       headerName: `${property}: ${i18next.t('common.key')}`,
-      valueGetter: (params) => params.row.data[property]?.field?.lexiconEntry.key,
+      valueGetter: (_value, row) => row.data[property]?.field?.lexiconEntry.key,
       renderCell: (params) =>
         params.value && <AslLexGridViewKey data={params.value} schema={schema} uischema={uischema} />
     },
     {
       field: `${property}-primary`,
       headerName: `${property}: ${i18next.t('common.primary')}`,
-      valueGetter: (params) => params.row.data[property]?.field?.lexiconEntry.primary,
+      valueGetter: (_value, row) => row.data[property]?.field?.lexiconEntry.primary,
       renderCell: (params) =>
         params.value && <AslLexGridViewPrimary data={params.value} schema={schema} uischema={uischema} />
     }

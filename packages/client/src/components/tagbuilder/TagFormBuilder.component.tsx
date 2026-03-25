@@ -88,7 +88,7 @@ export const TagFormBuilder: React.FC<TagsDisplayProps> = (props) => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={3}>
+      <Grid size={{ xs: 3 }}>
         <Stack direction="column" spacing={1} sx={{ maxWidth: 400 }}>
           <Typography variant="h5">Tag Fields</Typography>
           <AslLexFieldProvider handleClick={addTagField} />
@@ -115,7 +115,7 @@ export const TagFormBuilder: React.FC<TagsDisplayProps> = (props) => {
         {props.tagSchema && <TagFormPreviewDialog schema={props.tagSchema} clicked={open} toggleModal={toggleModal} />}
       </Grid>
 
-      <Grid item xs={9} sx={{ overflow: 'auto' }}>
+      <Grid size={{ xs: 9 }} sx={{ overflow: 'auto' }}>
         <Stack direction="column" sx={{ maxHeight: 400 }} spacing={2}>
           {props.tagFields.length > 0 ? (
             props.tagFields.map((value: TagField, index: number) => (

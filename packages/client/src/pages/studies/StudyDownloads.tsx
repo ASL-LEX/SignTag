@@ -38,13 +38,13 @@ export const StudyDownloads: React.FC = () => {
       field: 'studyName',
       headerName: t('common.study'),
       width: 200,
-      valueGetter: (params) => params.row.study.name
+      valueGetter: (_value, row) => row.study.name
     },
     {
       field: 'date',
       width: 200,
       headerName: t('components.datasetDownload.requestDate'),
-      valueGetter: (params) => t('common.dateFormat', { date: Date.parse(params.row.date) })
+      valueGetter: (_value, row) => t('common.dateFormat', { date: Date.parse(row.date) })
     },
     {
       field: 'status',
