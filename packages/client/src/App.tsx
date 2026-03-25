@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 import { HomePage } from './pages/Home';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { NavBar } from './components/NavigationBar.component';
@@ -35,6 +35,7 @@ import { StudyDownloads } from './pages/studies/StudyDownloads';
 import { useTranslation } from 'react-i18next';
 import * as firebase from '@firebase/app';
 import { User, getAuth } from '@firebase/auth';
+import { AdminLanding } from './pages/admin/AdminLanding.page';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_AUTH_API_KEY,
@@ -179,7 +180,6 @@ const AppReady: FC = () => {
 
 /** Contents of the app that can be loaded after authentication takes place */
 const AppInternal: FC = () => {
-  const [drawerOpen, setDrawerOpen] = useState(true);
   const { authenticated } = useAuth();
 
   const mainView: ReactNode = (
@@ -187,17 +187,7 @@ const AppInternal: FC = () => {
       <StudyProvider>
         <DatasetProvider>
           <PermissionProvider>
-            <Box>
-              <NavBar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
-            </Box>
-            <Main open={drawerOpen}>
-              <Box sx={{ display: 'flex' }}>
-                <SideBar open={drawerOpen} drawerWidth={drawerWidth} />
-                <Box sx={{ flexGrow: 1, width: '90%' }}>
-                  <MyRoutes />
-                </Box>
-              </Box>
-            </Main>
+            <MyRoutes />
           </PermissionProvider>
         </DatasetProvider>
       </StudyProvider>
@@ -207,6 +197,25 @@ const AppInternal: FC = () => {
   return <>{authenticated ? mainView : <UnauthenticatedView />}</>;
 };
 
+const UserViews: FC = () => {
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  return (
+    <>
+      <Box>
+        <NavBar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+      </Box>
+      <Main open={drawerOpen}>
+        <Box sx={{ display: 'flex' }}>
+          <SideBar open={drawerOpen} drawerWidth={drawerWidth} />
+          <Box sx={{ flexGrow: 1, width: '90%' }}>
+            <Outlet />
+          </Box>
+        </Box>
+      </Main>
+    </>
+  );
+};
+
 const UnauthenticatedView: FC = () => {
   return <MyRoutes />;
 };
@@ -214,24 +223,27 @@ const UnauthenticatedView: FC = () => {
 const MyRoutes: FC = () => {
   return (
     <Routes>
-      <Route path={'/'} element={<HomePage />} />
       <Route element={<AdminGuard />}>
-        <Route path={'/project/new'} element={<NewProject />} />
-        <Route path={'/project/controls'} element={<ProjectControl />} />
-        <Route path={'/project/permissions'} element={<ProjectUserPermissions />} />
-        <Route path={'/study/new'} element={<NewStudy />} />
-        <Route path={'/study/controls'} element={<StudyControl />} />
-        <Route path={'/study/permissions'} element={<StudyUserPermissions />} />
-        <Route path={'/study/entries'} element={<EntryControls />} />
-        <Route path={'/study/tags'} element={<TagView />} />
-        <Route path={'/study/training'} element={<TagTrainingView />} />
-        <Route path={'/study/downloads'} element={<StudyDownloads />} />
-        <Route path={'/successpage'} element={<SuccessPage />} />
-        <Route path={'/dataset/controls'} element={<DatasetControls />} />
-        <Route path={'/dataset/projectaccess'} element={<ProjectAccess />} />
-        <Route path={'/dataset/downloads'} element={<DatasetDownloads />} />
-        <Route path={'/contribute/landing'} element={<ContributeLanding />} />
-        <Route path={'/contribute/tagging'} element={<TaggingInterface />} />
+        <Route element={<UserViews />}>
+          <Route path={'/'} element={<HomePage />} />
+          <Route path={'/project/new'} element={<NewProject />} />
+          <Route path={'/project/controls'} element={<ProjectControl />} />
+          <Route path={'/project/permissions'} element={<ProjectUserPermissions />} />
+          <Route path={'/study/new'} element={<NewStudy />} />
+          <Route path={'/study/controls'} element={<StudyControl />} />
+          <Route path={'/study/permissions'} element={<StudyUserPermissions />} />
+          <Route path={'/study/entries'} element={<EntryControls />} />
+          <Route path={'/study/tags'} element={<TagView />} />
+          <Route path={'/study/training'} element={<TagTrainingView />} />
+          <Route path={'/study/downloads'} element={<StudyDownloads />} />
+          <Route path={'/successpage'} element={<SuccessPage />} />
+          <Route path={'/dataset/controls'} element={<DatasetControls />} />
+          <Route path={'/dataset/projectaccess'} element={<ProjectAccess />} />
+          <Route path={'/dataset/downloads'} element={<DatasetDownloads />} />
+          <Route path={'/contribute/landing'} element={<ContributeLanding />} />
+          <Route path={'/contribute/tagging'} element={<TaggingInterface />} />
+        </Route>
+        <Route path={'/admin/*'} element={<AdminLanding />} />
       </Route>
     </Routes>
   );
