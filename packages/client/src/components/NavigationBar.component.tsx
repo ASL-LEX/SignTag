@@ -30,7 +30,7 @@ export const NavBar: FC<NavBarProps> = ({ drawerOpen, setDrawerOpen }) => {
             color: 'black'
           }}
         >
-          ASL-LEX SignLab
+          SignTag
         </Typography>
       </Toolbar>
     </AppBar>
