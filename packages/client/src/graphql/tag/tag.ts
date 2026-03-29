@@ -13,6 +13,14 @@ export type CreateTagsMutationVariables = Types.Exact<{
 
 export type CreateTagsMutation = { __typename?: 'Mutation', createTags: Array<{ __typename?: 'Tag', _id: string }> };
 
+export type CreateCatchTrialsMutationVariables = Types.Exact<{
+  study: Types.Scalars['ID']['input'];
+  entries: Array<Types.Scalars['ID']['input']> | Types.Scalars['ID']['input'];
+}>;
+
+
+export type CreateCatchTrialsMutation = { __typename?: 'Mutation', createCatchTrials: Array<{ __typename?: 'Tag', _id: string }> };
+
 export type CreateTrainingSetMutationVariables = Types.Exact<{
   study: Types.Scalars['ID']['input'];
   entries: Array<Types.Scalars['ID']['input']> | Types.Scalars['ID']['input'];
@@ -103,6 +111,13 @@ export type GetTrainingTagsQueryVariables = Types.Exact<{
 
 export type GetTrainingTagsQuery = { __typename?: 'Query', getTrainingTags: Array<{ __typename?: 'Tag', _id: string, complete: boolean, entry: { __typename?: 'Entry', _id: string, organization: string, entryID: string, contentType: string, creator: string, dateCreated: any, meta?: any | null, signedUrl: string, signedUrlExpiration: number, isTraining: boolean }, data?: Array<{ __typename?: 'TagField', type: Types.TagFieldType, name: string, field?: { __typename: 'AslLexField', lexiconEntry: { __typename?: 'LexiconEntry', key: string, primary: string, video: string, lexicon: string, associates: Array<string>, fields: any } } | { __typename: 'BooleanField', boolValue: boolean } | { __typename: 'FreeTextField', textValue: string } | { __typename: 'NumericField', numericValue: number } | { __typename: 'SliderField', sliderValue: number } | { __typename: 'VideoField', entries: Array<{ __typename?: 'Entry', _id: string, organization: string, entryID: string, contentType: string, creator: string, dateCreated: any, meta?: any | null, signedUrl: string, signedUrlExpiration: number, isTraining: boolean }> } | null }> | null }> };
 
+export type GetCatchTrialsQueryVariables = Types.Exact<{
+  study: Types.Scalars['ID']['input'];
+}>;
+
+
+export type GetCatchTrialsQuery = { __typename?: 'Query', getCatchTrials: Array<{ __typename?: 'Tag', _id: string, data?: any | null, complete: boolean, isCatchTrial: boolean, entry: { __typename?: 'Entry', _id: string, organization: string, entryID: string, contentType: string, creator: string, dateCreated: any, meta?: any | null, signedUrl: string, signedUrlExpiration: number } }> };
+
 
 export const CreateTagsDocument = gql`
     mutation createTags($study: ID!, $entries: [ID!]!) {
@@ -138,6 +153,40 @@ export function useCreateTagsMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateTagsMutationHookResult = ReturnType<typeof useCreateTagsMutation>;
 export type CreateTagsMutationResult = Apollo.MutationResult<CreateTagsMutation>;
 export type CreateTagsMutationOptions = Apollo.BaseMutationOptions<CreateTagsMutation, CreateTagsMutationVariables>;
+export const CreateCatchTrialsDocument = gql`
+    mutation createCatchTrials($study: ID!, $entries: [ID!]!) {
+  createCatchTrials(study: $study, entries: $entries) {
+    _id
+  }
+}
+    `;
+export type CreateCatchTrialsMutationFn = Apollo.MutationFunction<CreateCatchTrialsMutation, CreateCatchTrialsMutationVariables>;
+
+/**
+ * __useCreateCatchTrialsMutation__
+ *
+ * To run a mutation, you first call `useCreateCatchTrialsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCatchTrialsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCatchTrialsMutation, { data, loading, error }] = useCreateCatchTrialsMutation({
+ *   variables: {
+ *      study: // value for 'study'
+ *      entries: // value for 'entries'
+ *   },
+ * });
+ */
+export function useCreateCatchTrialsMutation(baseOptions?: Apollo.MutationHookOptions<CreateCatchTrialsMutation, CreateCatchTrialsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCatchTrialsMutation, CreateCatchTrialsMutationVariables>(CreateCatchTrialsDocument, options);
+      }
+export type CreateCatchTrialsMutationHookResult = ReturnType<typeof useCreateCatchTrialsMutation>;
+export type CreateCatchTrialsMutationResult = Apollo.MutationResult<CreateCatchTrialsMutation>;
+export type CreateCatchTrialsMutationOptions = Apollo.BaseMutationOptions<CreateCatchTrialsMutation, CreateCatchTrialsMutationVariables>;
 export const CreateTrainingSetDocument = gql`
     mutation createTrainingSet($study: ID!, $entries: [ID!]!) {
   createTrainingSet(study: $study, entries: $entries)
@@ -636,3 +685,52 @@ export function useGetTrainingTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetTrainingTagsQueryHookResult = ReturnType<typeof useGetTrainingTagsQuery>;
 export type GetTrainingTagsLazyQueryHookResult = ReturnType<typeof useGetTrainingTagsLazyQuery>;
 export type GetTrainingTagsQueryResult = Apollo.QueryResult<GetTrainingTagsQuery, GetTrainingTagsQueryVariables>;
+export const GetCatchTrialsDocument = gql`
+    query getCatchTrials($study: ID!) {
+  getCatchTrials(study: $study) {
+    _id
+    entry {
+      _id
+      organization
+      entryID
+      contentType
+      creator
+      dateCreated
+      meta
+      signedUrl
+      signedUrlExpiration
+    }
+    data
+    complete
+    isCatchTrial
+  }
+}
+    `;
+
+/**
+ * __useGetCatchTrialsQuery__
+ *
+ * To run a query within a React component, call `useGetCatchTrialsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCatchTrialsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCatchTrialsQuery({
+ *   variables: {
+ *      study: // value for 'study'
+ *   },
+ * });
+ */
+export function useGetCatchTrialsQuery(baseOptions: Apollo.QueryHookOptions<GetCatchTrialsQuery, GetCatchTrialsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCatchTrialsQuery, GetCatchTrialsQueryVariables>(GetCatchTrialsDocument, options);
+      }
+export function useGetCatchTrialsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCatchTrialsQuery, GetCatchTrialsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCatchTrialsQuery, GetCatchTrialsQueryVariables>(GetCatchTrialsDocument, options);
+        }
+export type GetCatchTrialsQueryHookResult = ReturnType<typeof useGetCatchTrialsQuery>;
+export type GetCatchTrialsLazyQueryHookResult = ReturnType<typeof useGetCatchTrialsLazyQuery>;
+export type GetCatchTrialsQueryResult = Apollo.QueryResult<GetCatchTrialsQuery, GetCatchTrialsQueryVariables>;

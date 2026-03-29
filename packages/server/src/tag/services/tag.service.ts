@@ -69,6 +69,24 @@ export class TagService {
     return tags;
   }
 
+  async createCatchTrials(study: Study, entries: Entry[]): Promise<Tag[]> {
+    const tags: Tag[] = [];
+    for (const entry of entries) {
+      // Create catch trial tags for each entry
+      const newCatchTrial = await this.tagModel.create({
+        entry: entry._id,
+        study: study._id,
+        complete: false,
+        order: 0,
+        enabled: true,
+        training: false,
+        isCatchTrial: true // Indicate that this tag is a catch trial
+      });
+      tags.push(newCatchTrial);
+    }
+    return tags;
+  }
+
   async assignTag(study: Study, user: string, isTrained: boolean): Promise<Tag | null> {
     return isTrained ? this.assignTagFull(study, user) : this.assignTrainingTag(study, user);
   }
@@ -364,5 +382,14 @@ export class TagService {
 
   private async removeByEntry(entry: Entry): Promise<void> {
     await this.tagModel.deleteMany({ entry: entry._id });
+  }
+
+  async getCatchTrials(study: Study): Promise<Tag[]> {
+    return this.tagModel
+      .find({
+        study: study._id,
+        isCatchTrial: true
+      })
+      .exec();
   }
 }
