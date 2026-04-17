@@ -1,4 +1,16 @@
-import { Typography, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, Stack, Checkbox, FormControlLabel } from '@mui/material';
+import {
+  Typography,
+  Box,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Stack,
+  Checkbox,
+  FormControlLabel
+} from '@mui/material';
 import { useStudy } from '../../context/Study.context';
 import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
@@ -23,7 +35,6 @@ export const StudyControl: React.FC = () => {
   const [targetStudy, setTargetStudy] = useState<Study | null>(null);
 
   const [_createDownloadMutation, createDownloadResults] = useCreateStudyDownloadMutation();
-
 
   const handleDelete = async (id: GridRowId) => {
     // Execute delete mutation
@@ -121,7 +132,13 @@ export const StudyControl: React.FC = () => {
 
   return (
     <>
-      {targetStudy && <DownloadConfirmation open={downloadConfirmationOpen} targetStudy={targetStudy} close={() => setDownloadConfirmationOpen(false) } />}
+      {targetStudy && (
+        <DownloadConfirmation
+          open={downloadConfirmationOpen}
+          targetStudy={targetStudy}
+          close={() => setDownloadConfirmationOpen(false)}
+        />
+      )}
       <Typography variant="h3">{t('menu.studyControl')}</Typography>
       <Box sx={{ maxWidth: '1000px', margin: 'auto' }}>
         <DataGrid rows={studies || []} columns={columns} getRowId={(row: Study) => row._id} />
@@ -157,7 +174,7 @@ const DownloadConfirmation: React.FC<DownloadConfirmationProps> = ({ open, targe
     createDownloadMutation({
       variables: {
         downloadRequest: {
-          study: targetStudy._id,
+          study: targetStudy._id
         },
         textOnly
       }
@@ -175,7 +192,10 @@ const DownloadConfirmation: React.FC<DownloadConfirmationProps> = ({ open, targe
       <DialogContent>
         <Stack>
           <Typography>{message}</Typography>
-          <FormControlLabel control={<Checkbox value={textOnly} onChange={(event) => setTextOnly(event.target.checked)} />} label="Text Only" />
+          <FormControlLabel
+            control={<Checkbox value={textOnly} onChange={(event) => setTextOnly(event.target.checked)} />}
+            label="Text Only"
+          />
         </Stack>
       </DialogContent>
       <DialogActions>
