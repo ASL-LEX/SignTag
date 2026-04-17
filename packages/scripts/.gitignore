@@ -1,5 +1,5 @@
 # Virtual Environments
-/venv/
+venv/
 
 # Build Files
 *.pyc
