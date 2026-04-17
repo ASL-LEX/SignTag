@@ -22,7 +22,7 @@ export const StudyControl: React.FC = () => {
   const [downloadConfirmationOpen, setDownloadConfirmationOpen] = useState<boolean>(false);
   const [targetStudy, setTargetStudy] = useState<Study | null>(null);
 
-  const [createDownloadMutation, createDownloadResults] = useCreateStudyDownloadMutation();
+  const [_createDownloadMutation, createDownloadResults] = useCreateStudyDownloadMutation();
 
 
   const handleDelete = async (id: GridRowId) => {
@@ -121,7 +121,7 @@ export const StudyControl: React.FC = () => {
 
   return (
     <>
-      {targetStudy && <DownloadConfirmation open={downloadConfirmationOpen} targetStudy={targetStudy} />}
+      {targetStudy && <DownloadConfirmation open={downloadConfirmationOpen} targetStudy={targetStudy} close={() => setDownloadConfirmationOpen(false) } />}
       <Typography variant="h3">{t('menu.studyControl')}</Typography>
       <Box sx={{ maxWidth: '1000px', margin: 'auto' }}>
         <DataGrid rows={studies || []} columns={columns} getRowId={(row: Study) => row._id} />
@@ -133,12 +133,41 @@ export const StudyControl: React.FC = () => {
 interface DownloadConfirmationProps {
   open: boolean;
   targetStudy: Study;
+  close: () => void;
 }
 
-const DownloadConfirmation: React.FC<DownloadConfirmationProps> = ({ open, targetStudy }) => {
+const DownloadConfirmation: React.FC<DownloadConfirmationProps> = ({ open, targetStudy, close }) => {
   const { t } = useTranslation();
   const title = t('components.studyDownload.downloadTitle');
   const message = t('components.studyDownload.downloadDescription');
+  const [createDownloadMutation, createDownloadResults] = useCreateStudyDownloadMutation();
+  const { pushSnackbarMessage } = useSnackbar();
+  const [textOnly, setTextOnly] = useState<boolean>(false);
+
+  // Share the results with the user
+  useEffect(() => {
+    if (createDownloadResults.data) {
+      pushSnackbarMessage(t('components.studyDownload.downloadStartedSuccess'), 'success');
+    } else if (createDownloadResults.error) {
+      pushSnackbarMessage(t('components.studyDownload.downloadFailed'), 'error');
+    }
+  }, [createDownloadResults.data, createDownloadResults.error]);
+
+  const handleConfirmation = () => {
+    createDownloadMutation({
+      variables: {
+        downloadRequest: {
+          study: targetStudy._id,
+        },
+        textOnly
+      }
+    });
+    close();
+  };
+
+  const handleCancel = () => {
+    close();
+  };
 
   return (
     <Dialog sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }} maxWidth="xs" open={open}>
@@ -146,14 +175,14 @@ const DownloadConfirmation: React.FC<DownloadConfirmationProps> = ({ open, targe
       <DialogContent>
         <Stack>
           <Typography>{message}</Typography>
-          <FormControlLabel control={<Checkbox />} label="Text Only" />
+          <FormControlLabel control={<Checkbox value={textOnly} onChange={(event) => setTextOnly(event.target.checked)} />} label="Text Only" />
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus>
+        <Button autoFocus onClick={handleCancel}>
           {t('common.cancel')}
         </Button>
-        <Button> {t('common.ok')}</Button>
+        <Button onClick={handleConfirmation}> {t('common.ok')}</Button>
       </DialogActions>
     </Dialog>
   );

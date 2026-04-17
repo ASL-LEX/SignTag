@@ -52,8 +52,18 @@ export class StudyDownloadService {
 
   async createDownloadRequest(
     downloadRequest: CreateStudyDownloadRequest,
-    organization: Organization
+    organization: Organization,
+    textOnly: boolean
   ): Promise<StudyDownloadRequest> {
+    if (textOnly) {
+      return this.createTextOnlyDownload(downloadRequest, organization);
+    } else {
+      return this.createFullDownload(downloadRequest, organization);
+    }
+  }
+
+  /** Full download includes zipping up the target videos */
+  async createFullDownload(downloadRequest: CreateStudyDownloadRequest, organization: Organization): Promise<StudyDownloadRequest> {
     let request = await this.downloadRequestModel.create({
       ...downloadRequest,
       date: new Date(),
@@ -137,6 +147,65 @@ export class StudyDownloadService {
       bucket: bucket,
       organization: request.organization
     });
+
+    return request;
+  }
+
+  /** Text only download only grabs the CSV and the list of videos associated with the study */
+  async createTextOnlyDownload(downloadRequest: CreateStudyDownloadRequest, organization: Organization): Promise<StudyDownloadRequest> {
+    let request = await this.downloadRequestModel.create({
+      ...downloadRequest,
+      date: new Date(),
+      status: DownloadStatus.IN_PROGRESS,
+      organization: organization._id,
+      entryZipComplete: false,
+      taggedEntryZipComplete: false,
+      verificationCode: randomUUID()
+    });
+
+    const bucketLocation = `${this.downloadService.getPrefix()}/${request._id}`;
+
+    // Create the locations for all the artifacts
+    const entryJSONLocation = `${bucketLocation}/entries.json`;
+    const userCSVLocation = `${bucketLocation}/user.csv`;
+    const webhookPayloadLocation = `${bucketLocation}/webhook.json`;
+    const tagCSVLocation = `${bucketLocation}/tag.csv`;
+    const taggedEntriesJSONLocation = `${bucketLocation}/tagged_entries.json`;
+    const taggedEntryWebhookPayloadLocation = `${bucketLocation}/tagged_entries_webhook.json`;
+
+    // We use the "ZIP" field even tho it is storing the JSON of entries
+    await this.downloadRequestModel.updateOne(
+      { _id: request._id },
+      {
+        $set: {
+          bucketLocation: bucketLocation,
+          entryZIPLocation: entryJSONLocation,
+          entryJSONLocation: entryJSONLocation,
+          userCSVLocation: userCSVLocation,
+          webhookPayloadLocation: webhookPayloadLocation,
+          tagCSVLocation: tagCSVLocation,
+          taggedEntriesZipLocation: taggedEntriesJSONLocation,
+          taggedEntriesJSONLocation: taggedEntriesJSONLocation,
+          taggedEntryWebhookPayloadLocation: taggedEntryWebhookPayloadLocation
+        }
+      }
+    );
+    request = (await this.downloadRequestModel.findById(request._id))!;
+
+    const labeldEntries = await this.getLabeledEntries(request);
+    const bucket = (await this.bucketFactory.getBucket(request.organization))!;
+
+    // Save the list of entries that were labeled in the study
+    bucket.writeText(request.taggedEntriesZipLocation!, JSON.stringify({ entries: labeldEntries.map(entry => entry.bucketLocation) }));
+    // Save the list of entries recorded in the study
+    const createdEntries = await this.entryService.getEntriesForStudy(downloadRequest.study);
+    bucket.writeText(request.entryZIPLocation!, JSON.stringify({ entries: createdEntries.map(entry => entry.bucketLocation) }));
+    // Download the tag data as a CSV
+    await this.generateCSV(request);
+    // Download the user data
+    await this.generateUserCSV(request, organization);
+    // Mark the request as complete
+    await this.downloadRequestModel.updateOne({ _id: request._id, }, { $set: { status: DownloadStatus.READY }});
 
     return request;
   }

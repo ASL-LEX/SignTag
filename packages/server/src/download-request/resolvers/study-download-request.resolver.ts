@@ -23,7 +23,7 @@ export class StudyDownloadRequestResolver {
     @OrganizationContext() organization: Organization,
     @Args({ name: 'textOnly', nullable: true }) textOnly: boolean
   ): Promise<StudyDownloadRequest> {
-    return this.studyDownloadService.createDownloadRequest(downloadRequest, organization);
+    return this.studyDownloadService.createDownloadRequest(downloadRequest, organization, textOnly);
   }
 
   @Query(() => [StudyDownloadRequest])
