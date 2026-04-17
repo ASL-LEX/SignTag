@@ -43,6 +43,7 @@ export type GetStudyDownloadsQuery = { __typename?: 'Query', getStudyDownloads: 
 
 export type CreateStudyDownloadMutationVariables = Types.Exact<{
   downloadRequest: Types.CreateStudyDownloadRequest;
+  textOnly: Types.Scalars['Boolean']['input'];
 }>;
 
 
@@ -259,8 +260,8 @@ export type GetStudyDownloadsQueryHookResult = ReturnType<typeof useGetStudyDown
 export type GetStudyDownloadsLazyQueryHookResult = ReturnType<typeof useGetStudyDownloadsLazyQuery>;
 export type GetStudyDownloadsQueryResult = Apollo.QueryResult<GetStudyDownloadsQuery, GetStudyDownloadsQueryVariables>;
 export const CreateStudyDownloadDocument = gql`
-    mutation createStudyDownload($downloadRequest: CreateStudyDownloadRequest!) {
-  createStudyDownload(downloadRequest: $downloadRequest) {
+    mutation createStudyDownload($downloadRequest: CreateStudyDownloadRequest!, $textOnly: Boolean!) {
+  createStudyDownload(downloadRequest: $downloadRequest, textOnly: $textOnly) {
     _id
     status
     date
@@ -283,6 +284,7 @@ export type CreateStudyDownloadMutationFn = Apollo.MutationFunction<CreateStudyD
  * const [createStudyDownloadMutation, { data, loading, error }] = useCreateStudyDownloadMutation({
  *   variables: {
  *      downloadRequest: // value for 'downloadRequest'
+ *      textOnly: // value for 'textOnly'
  *   },
  * });
  */

@@ -20,9 +20,10 @@ export class StudyDownloadRequestResolver {
   @UseGuards(JwtAuthGuard, OrganizationGuard)
   async createStudyDownload(
     @Args('downloadRequest', CreateStudyDownloadPipe) downloadRequest: CreateStudyDownloadRequest,
-    @OrganizationContext() organization: Organization
+    @OrganizationContext() organization: Organization,
+    @Args({ name: 'textOnly', nullable: true }) textOnly: boolean
   ): Promise<StudyDownloadRequest> {
-    return this.studyDownloadService.createDownloadRequest(downloadRequest, organization);
+    return this.studyDownloadService.createDownloadRequest(downloadRequest, organization, textOnly);
   }
 
   @Query(() => [StudyDownloadRequest])

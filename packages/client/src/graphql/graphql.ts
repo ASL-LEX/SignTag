@@ -270,6 +270,7 @@ export type MutationCreateStudyArgs = {
 
 export type MutationCreateStudyDownloadArgs = {
   downloadRequest: CreateStudyDownloadRequest;
+  textOnly?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 

@@ -65,8 +65,8 @@ query getStudyDownloads($study: ID!) {
   }
 }
 
-mutation createStudyDownload($downloadRequest: CreateStudyDownloadRequest!) {
-  createStudyDownload(downloadRequest: $downloadRequest) {
+mutation createStudyDownload($downloadRequest: CreateStudyDownloadRequest!, $textOnly: Boolean!) {
+  createStudyDownload(downloadRequest: $downloadRequest, textOnly: $textOnly) {
     _id,
     status,
     date
