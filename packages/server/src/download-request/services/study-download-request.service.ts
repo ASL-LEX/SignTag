@@ -63,7 +63,10 @@ export class StudyDownloadService {
   }
 
   /** Full download includes zipping up the target videos */
-  async createFullDownload(downloadRequest: CreateStudyDownloadRequest, organization: Organization): Promise<StudyDownloadRequest> {
+  async createFullDownload(
+    downloadRequest: CreateStudyDownloadRequest,
+    organization: Organization
+  ): Promise<StudyDownloadRequest> {
     let request = await this.downloadRequestModel.create({
       ...downloadRequest,
       date: new Date(),
@@ -152,7 +155,10 @@ export class StudyDownloadService {
   }
 
   /** Text only download only grabs the CSV and the list of videos associated with the study */
-  async createTextOnlyDownload(downloadRequest: CreateStudyDownloadRequest, organization: Organization): Promise<StudyDownloadRequest> {
+  async createTextOnlyDownload(
+    downloadRequest: CreateStudyDownloadRequest,
+    organization: Organization
+  ): Promise<StudyDownloadRequest> {
     let request = await this.downloadRequestModel.create({
       ...downloadRequest,
       date: new Date(),
@@ -196,16 +202,22 @@ export class StudyDownloadService {
     const bucket = (await this.bucketFactory.getBucket(request.organization))!;
 
     // Save the list of entries that were labeled in the study
-    bucket.writeText(request.taggedEntriesZipLocation!, JSON.stringify({ entries: labeldEntries.map(entry => entry.bucketLocation) }));
+    bucket.writeText(
+      request.taggedEntriesZipLocation!,
+      JSON.stringify({ entries: labeldEntries.map((entry) => entry.bucketLocation) })
+    );
     // Save the list of entries recorded in the study
     const createdEntries = await this.entryService.getEntriesForStudy(downloadRequest.study);
-    bucket.writeText(request.entryZIPLocation!, JSON.stringify({ entries: createdEntries.map(entry => entry.bucketLocation) }));
+    bucket.writeText(
+      request.entryZIPLocation!,
+      JSON.stringify({ entries: createdEntries.map((entry) => entry.bucketLocation) })
+    );
     // Download the tag data as a CSV
     await this.generateCSV(request);
     // Download the user data
     await this.generateUserCSV(request, organization);
     // Mark the request as complete
-    await this.downloadRequestModel.updateOne({ _id: request._id, }, { $set: { status: DownloadStatus.READY }});
+    await this.downloadRequestModel.updateOne({ _id: request._id }, { $set: { status: DownloadStatus.READY } });
 
     return request;
   }
