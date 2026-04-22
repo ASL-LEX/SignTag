@@ -4,6 +4,12 @@ mutation createTags($study: ID!, $entries: [ID!]!) {
   }
 }
 
+mutation createCatchTrials($study: ID!, $entries: [ID!]!) {
+  createCatchTrials(study: $study, entries: $entries) {
+    _id
+  }
+}
+
 mutation createTrainingSet($study: ID!, $entries: [ID!]!) {
   createTrainingSet(study: $study, entries: $entries)
 }
@@ -191,5 +197,25 @@ query getTrainingTags($study: ID!, $user: String!, $page: Int, $pageSize: Int) {
       }
     }
     complete
+  }
+}
+
+query getCatchTrials($study: ID!) {
+  getCatchTrials(study: $study) {
+    _id
+    entry {
+      _id
+      organization
+      entryID
+      contentType
+      creator
+      dateCreated
+      meta
+      signedUrl
+      signedUrlExpiration
+    }
+    data
+    complete
+    isCatchTrial
   }
 }
