@@ -53,6 +53,8 @@ def main():
 
     # Now we can loop over all the entries
     for entry_key in entries:
+        if entry_key is None:
+            continue
         filename = Path(entry_key).name
         output_location = entry_output_folder / filename
 
