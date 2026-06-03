@@ -144,7 +144,9 @@
       "succefullyCreated": "Successfully created!"
     },
     "tagView": {
-      "originalEntry": "Original Entry"
+      "originalEntry": "Original Entry",
+      "originalCue": "Original Cue",
+      "responseToCue": "Response to Original Cue"
     },
     "userPermissions": {
       "contributor": "Contributor",

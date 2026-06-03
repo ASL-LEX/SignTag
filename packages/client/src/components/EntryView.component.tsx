@@ -1,6 +1,7 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { VideoViewProps, VideoEntryView } from './VideoView.component';
 import { AssignTagMutation } from '../graphql/tag/tag';
+import { useTranslation } from 'react-i18next';
 
 export interface EntryViewProps extends Omit<VideoViewProps, 'url'> {
   entry: NonNullable<AssignTagMutation['assignTag']>['entry'];
@@ -8,15 +9,8 @@ export interface EntryViewProps extends Omit<VideoViewProps, 'url'> {
 }
 
 export const EntryView: React.FC<EntryViewProps> = (props) => {
-
   if (props.showCue) {
-    const originalCue = props.entry.signlabRecording?.tag.entry;
-    return (
-      <Stack>
-        {originalCue ? getEntryView({...props, entry: originalCue }) : <></>}
-        {getEntryView({...props})}
-      </Stack>
-    );
+    return <ShowWithCue {...props} />
   }
   return getEntryView(props);
 };
@@ -39,3 +33,25 @@ const ImageEntryView: React.FC<EntryViewProps> = (props) => {
     </Box>
   );
 };
+
+const ShowWithCue: React.FC<EntryViewProps> = (props) => {
+  const { t } = useTranslation();
+  const originalCue = props.entry.signlabRecording?.tag.entry;
+
+  return (
+    <Grid container>
+      <Grid item xs={2}>
+        <Typography variant='body1'>{t('components.tagView.originalCue')}</Typography>
+      </Grid>
+      <Grid item xs={10}>
+        {originalCue ? getEntryView({...props, entry: originalCue }) : <></>}
+      </Grid>
+      <Grid item xs={2}>
+        <Typography variant='body1'>{t('components.tagView.responseToCue')}</Typography>
+      </Grid>
+      <Grid item xs={10}>
+        {getEntryView({...props})}
+      </Grid>
+    </Grid>
+  );
+}
