@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Entry, EntrySchema } from './models/entry.model';
 import { EntryResolver } from './resolvers/entry.resolver';
@@ -19,6 +19,8 @@ import { MongooseMiddlewareService } from '../shared/service/mongoose-callback.s
 import { SharedModule } from '../shared/shared.module';
 import { OrganizationModule } from '../organization/organization.module';
 import { BucketModule } from 'src/bucket/bucket.module';
+import { SignLabRecordingResolver } from './resolvers/signlab-recording.resolver';
+import { TagModule } from '../tag/tag.module';
 
 @Module({
   imports: [
@@ -46,7 +48,8 @@ import { BucketModule } from 'src/bucket/bucket.module';
     PermissionModule,
     JwtModule,
     OrganizationModule,
-    BucketModule
+    BucketModule,
+    forwardRef(() => TagModule)
   ],
   providers: [
     EntryResolver,
@@ -57,7 +60,8 @@ import { BucketModule } from 'src/bucket/bucket.module';
     UploadSessionResolver,
     UploadSessionPipe,
     EntryUploadService,
-    CsvValidationService
+    CsvValidationService,
+    SignLabRecordingResolver
   ],
   exports: [EntryPipe, EntriesPipe, EntryService]
 })
