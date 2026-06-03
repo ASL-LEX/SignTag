@@ -50,7 +50,7 @@ export type AssignTagMutationVariables = Types.Exact<{
 }>;
 
 
-export type AssignTagMutation = { __typename?: 'Mutation', assignTag?: { __typename?: 'Tag', _id: string, entry: { __typename?: 'Entry', _id: string, organization: string, entryID: string, contentType: string, dataset: string, creator: string, dateCreated: any, meta?: any | null, signedUrl: string, signedUrlExpiration: number, isTraining: boolean } } | null };
+export type AssignTagMutation = { __typename?: 'Mutation', assignTag?: { __typename?: 'Tag', _id: string, entry: { __typename?: 'Entry', _id: string, organization: string, entryID: string, contentType: string, dataset: string, creator: string, dateCreated: any, meta?: any | null, signedUrl: string, signedUrlExpiration: number, isTraining: boolean, signlabRecording?: { __typename?: 'SignLabRecorded', tag: { __typename?: 'Tag', _id: string, entry: { __typename?: 'Entry', _id: string, organization: string, entryID: string, contentType: string, dataset: string, creator: string, dateCreated: any, meta?: any | null, signedUrl: string, signedUrlExpiration: number, isTraining: boolean } } } | null } } | null };
 
 export type CompleteTagMutationVariables = Types.Exact<{
   tag: Types.Scalars['ID']['input'];
@@ -284,6 +284,24 @@ export const AssignTagDocument = gql`
       signedUrl
       signedUrlExpiration
       isTraining
+      signlabRecording {
+        tag {
+          _id
+          entry {
+            _id
+            organization
+            entryID
+            contentType
+            dataset
+            creator
+            dateCreated
+            meta
+            signedUrl
+            signedUrlExpiration
+            isTraining
+          }
+        }
+      }
     }
   }
 }

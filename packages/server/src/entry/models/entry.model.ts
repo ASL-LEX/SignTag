@@ -2,12 +2,14 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import mongoose, { Document } from 'mongoose';
 import JSON from 'graphql-type-json';
+import { Tag } from '../../tag/models/tag.model';
 
 @Schema()
 @ObjectType()
 export class SignLabRecorded {
   /** The tag the recording is associated with */
   @Prop({ required: true })
+  @Field(() => Tag)
   tag: string;
 
   /** The name of the field within the tag */

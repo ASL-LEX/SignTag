@@ -14,6 +14,7 @@ query findStudies($project: ID!) {
       disableSameUserEntryTagging
       sortByEntryID
       disableClear
+      showPriorCue
     }
   }
 }

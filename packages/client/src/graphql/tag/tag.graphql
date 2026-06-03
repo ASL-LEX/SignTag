@@ -35,6 +35,24 @@ mutation assignTag($study: ID!) {
       signedUrl
       signedUrlExpiration
       isTraining
+      signlabRecording {
+        tag {
+          _id
+          entry {
+            _id
+            organization
+            entryID
+            contentType
+            dataset
+            creator
+            dateCreated
+            meta
+            signedUrl
+            signedUrlExpiration
+            isTraining
+          }
+        }
+      }
     }
   }
 }

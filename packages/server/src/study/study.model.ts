@@ -43,6 +43,15 @@ export class StudyConfig {
   @Prop({ required: false })
   @Field({ nullable: true })
   disableClear?: boolean;
+
+  /**
+   * If set, and if the entry prosented from the user was originally
+   * recorded in SignTag, the user will be presented with the cue
+   * entry that resulted in the entry they are now labeling
+   */
+  @Prop({ required: false })
+  @Field({ nullable: true })
+  showPriorCue?: boolean;
 }
 
 const StudyConfigSchema = SchemaFactory.createForClass(StudyConfig);

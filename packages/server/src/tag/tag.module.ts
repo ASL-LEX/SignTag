@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TagService } from './services/tag.service';
 import { TagResolver } from './resolvers/tag.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -40,7 +40,7 @@ import { VideoFieldResolver } from './resolvers/video-field.resolver';
       { name: VideoField.name, schema: VideoFieldSchema }
     ]),
     StudyModule,
-    EntryModule,
+    forwardRef(() => EntryModule),
     SharedModule,
     PermissionModule,
     GcpModule,
