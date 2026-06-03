@@ -10,7 +10,7 @@ export interface EntryViewProps extends Omit<VideoViewProps, 'url'> {
 
 export const EntryView: React.FC<EntryViewProps> = (props) => {
   if (props.showCue) {
-    return <ShowWithCue {...props} />
+    return <ShowWithCue {...props} />;
   }
   return getEntryView(props);
 };
@@ -41,17 +41,17 @@ const ShowWithCue: React.FC<EntryViewProps> = (props) => {
   return (
     <Grid container>
       <Grid item xs={2}>
-        <Typography variant='body1'>{t('components.tagView.originalCue')}</Typography>
+        <Typography variant="body1">{t('components.tagView.originalCue')}</Typography>
       </Grid>
       <Grid item xs={10}>
-        {originalCue ? getEntryView({...props, entry: originalCue }) : <></>}
+        {originalCue ? getEntryView({ ...props, entry: originalCue }) : <></>}
       </Grid>
       <Grid item xs={2}>
-        <Typography variant='body1'>{t('components.tagView.responseToCue')}</Typography>
+        <Typography variant="body1">{t('components.tagView.responseToCue')}</Typography>
       </Grid>
       <Grid item xs={10}>
-        {getEntryView({...props})}
+        {getEntryView({ ...props })}
       </Grid>
     </Grid>
   );
-}
+};

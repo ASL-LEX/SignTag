@@ -101,7 +101,7 @@ export class TagResolver {
     @Args('study', { type: () => ID }, StudyPipe) study: Study,
     @Args('entry', { type: () => ID }, EntryPipe) entry: Entry,
     @TokenContext() user: TokenPayload
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     if (!(await this.enforcer.enforce(user.user_id, TagPermissions.READ, study._id.toString()))) {
       throw new UnauthorizedException('User cannot read tags in this study');
     }
@@ -125,7 +125,7 @@ export class TagResolver {
   async countTagForStudy(
     @Args('study', { type: () => ID }, StudyPipe) study: Study,
     @TokenContext() user: TokenPayload
-  ): Promise<Number> {
+  ): Promise<number> {
     if (!(await this.enforcer.enforce(user.user_id, TagPermissions.READ, study._id.toString()))) {
       throw new UnauthorizedException('User cannot read tags in this study');
     }
@@ -153,7 +153,7 @@ export class TagResolver {
     @Args('study', { type: () => ID }, StudyPipe) study: Study,
     @Args('user') user: string,
     @TokenContext() requestingUser: TokenPayload
-  ): Promise<Number> {
+  ): Promise<number> {
     if (!(await this.enforcer.enforce(requestingUser.user_id, TagPermissions.READ, study._id.toString()))) {
       throw new UnauthorizedException('User cannot read tags in this study');
     }

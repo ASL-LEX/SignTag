@@ -43,7 +43,7 @@ export class StudyResolver {
     @Args('name') name: string,
     @Args('project', { type: () => ID }, ProjectPipe) project: Project,
     @TokenContext() user: TokenPayload
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     if (!(await this.enforcer.enforce(user.user_id, StudyPermissions.READ, project._id.toString()))) {
       throw new UnauthorizedException('User cannot read studies on this project');
     }

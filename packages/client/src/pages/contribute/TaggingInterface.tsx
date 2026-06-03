@@ -58,7 +58,10 @@ const MainView: React.FC<MainViewProps> = (props) => {
   return (
     <>
       {tag ? (
-        <Stack direction='row' sx={{ justifyContent: 'space-between', display: 'flex', maxWidth: '80%', margin: 'auto' }}>
+        <Stack
+          direction="row"
+          sx={{ justifyContent: 'space-between', display: 'flex', maxWidth: '80%', margin: 'auto' }}
+        >
           <EntryView
             entry={tag.entry}
             width={500}

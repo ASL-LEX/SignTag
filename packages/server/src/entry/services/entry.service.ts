@@ -49,7 +49,7 @@ export class EntryService {
   }
 
   async findForDataset(dataset: Dataset | string, page?: number, pageSize?: number): Promise<Entry[]> {
-    let id: string = '';
+    let id = '';
 
     if (typeof dataset === 'string') {
       id = dataset;
@@ -68,7 +68,7 @@ export class EntryService {
   }
 
   async countForDataset(dataset: Dataset | string) {
-    let id: string = '';
+    let id = '';
 
     if (typeof dataset === 'string') {
       id = dataset;
