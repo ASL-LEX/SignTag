@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { EntryView } from '../../components/EntryView.component';
 import { TagForm } from '../../components/contribute/TagForm.component';
 import { useStudy } from '../../context/Study.context';
