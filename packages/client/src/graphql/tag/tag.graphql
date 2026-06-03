@@ -40,8 +40,16 @@ mutation assignTag($study: ID!) {
           _id
           entry {
             _id
+            organization
+            entryID
+            contentType
+            dataset
+            creator
+            dateCreated
+            meta
             signedUrl
             signedUrlExpiration
+            isTraining
           }
         }
       }

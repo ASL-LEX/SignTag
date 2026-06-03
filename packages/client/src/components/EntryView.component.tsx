@@ -1,13 +1,23 @@
-import { Box } from '@mui/material';
-import { Entry } from '../graphql/graphql';
+import { Box, Stack } from '@mui/material';
 import { VideoViewProps, VideoEntryView } from './VideoView.component';
+import { AssignTagMutation } from '../graphql/tag/tag';
 
 export interface EntryViewProps extends Omit<VideoViewProps, 'url'> {
-  entry: Entry;
-  showCue: boolean;
+  entry: NonNullable<AssignTagMutation['assignTag']>['entry'];
+  showCue?: boolean;
 }
 
 export const EntryView: React.FC<EntryViewProps> = (props) => {
+
+  if (props.showCue) {
+    const originalCue = props.entry.signlabRecording?.tag.entry;
+    return (
+      <Stack>
+        {originalCue ? getEntryView({...props, entry: originalCue }) : <></>}
+        {getEntryView({...props})}
+      </Stack>
+    );
+  }
   return getEntryView(props);
 };
 
