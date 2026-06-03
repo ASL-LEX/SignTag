@@ -10,7 +10,7 @@ export type FindStudiesQueryVariables = Types.Exact<{
 }>;
 
 
-export type FindStudiesQuery = { __typename?: 'Query', findStudies: Array<{ __typename?: 'Study', _id: string, name: string, description: string, instructions: string, project: string, tagsPerEntry: number, tagSchema: { __typename?: 'TagSchema', dataSchema: any, uiSchema: any }, studyConfig?: { __typename?: 'StudyConfig', disableSameUserEntryTagging?: boolean | null, sortByEntryID?: boolean | null, disableClear?: boolean | null } | null }> };
+export type FindStudiesQuery = { __typename?: 'Query', findStudies: Array<{ __typename?: 'Study', _id: string, name: string, description: string, instructions: string, project: string, tagsPerEntry: number, tagSchema: { __typename?: 'TagSchema', dataSchema: any, uiSchema: any }, studyConfig?: { __typename?: 'StudyConfig', disableSameUserEntryTagging?: boolean | null, sortByEntryID?: boolean | null, disableClear?: boolean | null, showPriorCue?: boolean | null } | null }> };
 
 export type DeleteStudyMutationVariables = Types.Exact<{
   study: Types.Scalars['ID']['input'];
@@ -67,6 +67,7 @@ export const FindStudiesDocument = gql`
       disableSameUserEntryTagging
       sortByEntryID
       disableClear
+      showPriorCue
     }
   }
 }

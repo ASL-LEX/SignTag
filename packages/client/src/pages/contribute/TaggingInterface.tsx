@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { EntryView } from '../../components/EntryView.component';
 import { TagForm } from '../../components/contribute/TagForm.component';
 import { useStudy } from '../../context/Study.context';
@@ -58,7 +58,7 @@ const MainView: React.FC<MainViewProps> = (props) => {
   return (
     <>
       {tag ? (
-        <Box sx={{ justifyContent: 'space-between', display: 'flex', maxWidth: '80%', margin: 'auto' }}>
+        <Stack direction='row' sx={{ justifyContent: 'space-between', display: 'flex', maxWidth: '80%', margin: 'auto' }}>
           <EntryView
             entry={tag.entry}
             width={500}
@@ -66,9 +66,10 @@ const MainView: React.FC<MainViewProps> = (props) => {
             pauseFrame="start"
             mouseOverControls={false}
             displayControls={true}
+            showCue={!!props.study.studyConfig?.showPriorCue}
           />
           <TagForm study={props.study} setTagData={setTagData} />
-        </Box>
+        </Stack>
       ) : (
         <NoTagNotification studyName={props.study.name} />
       )}

@@ -4,6 +4,7 @@ import { VideoViewProps, VideoEntryView } from './VideoView.component';
 
 export interface EntryViewProps extends Omit<VideoViewProps, 'url'> {
   entry: Entry;
+  showCue: boolean;
 }
 
 export const EntryView: React.FC<EntryViewProps> = (props) => {

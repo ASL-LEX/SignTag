@@ -101,6 +101,7 @@
       "completed": "All steps completed - your new study is created",
       "createStudy": "Create New Study",
       "disableClear": "Disable Clear Button",
+      "showPriorCue": "Show Original Cue Sign",
       "disableSameUserTagging": "Disable users tagging entries they recorded",
       "formTitle": "Study Information",
       "noDatasets": "No datasets available, create a dataset and grant the project access under Datasets > Project Access",

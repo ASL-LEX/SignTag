@@ -47,7 +47,11 @@ export const NewStudyJsonForm: React.FC<NewStudyFormProps> = (props) => {
           },
           disableClear: {
             type: 'boolean',
-            default: 'false'
+            default: false
+          },
+          showPriorCue: {
+            type: 'boolean',
+            default: false
           }
         }
       }
@@ -93,6 +97,11 @@ export const NewStudyJsonForm: React.FC<NewStudyFormProps> = (props) => {
         type: 'Control',
         label: t('components.newStudy.disableClear'),
         scope: '#/properties/studyConfig/properties/disableClear'
+      },
+      {
+        type: 'Control',
+        label: t('components.newStudy.showPriorCue'),
+        scope: '#/properties/studyConfig/properties/showPriorCue'
       }
     ]
   };
