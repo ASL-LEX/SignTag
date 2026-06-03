@@ -651,6 +651,7 @@ export type QueryValidateCsvArgs = {
 export type SignLabRecorded = {
   __typename?: 'SignLabRecorded';
   fieldName: Scalars['String']['output'];
+  tag: Tag;
 };
 
 export type SliderField = {
