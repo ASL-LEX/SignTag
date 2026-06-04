@@ -25,6 +25,8 @@ export const LanguageSelector: React.FC = () => {
         return t('languages.en');
       case 'es':
         return t('languages.es');
+      case 'de':
+        return t('languages.de')
       default:
         throw new Error(`Unsupported language: ${lang}`);
     }

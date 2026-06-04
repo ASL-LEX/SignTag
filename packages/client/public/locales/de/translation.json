@@ -1,0 +1,212 @@
+{
+  "Auth": {
+    "dialogClose": "Schließen",
+    "email": "E-Mail",
+    "enterPassword": "Geben Sie Ihr Passwort ein",
+    "enterUsername": "Geben Sie Ihren Benutzernamen ein",
+    "errorUnexpected": "Ein unbekannter Fehler ist aufgetreten. Bitte informieren Sie den Administrator",
+    "login": {
+      "login": "Login",
+      "userNotFound": "Dieser Benutzername existiert nicht. Bitte registrieren Sie sich zuerst",
+      "wrongPassword": "Dieses Passwort ist falsch"
+    },
+    "organization": "Organisation",
+    "password": "Passwort",
+    "resetPassword": {
+      "confirmDialog": "Eine E-Mail, um Ihr Passwort zurückzusetzen, wurde an Ihre E-Mail Adresse geschickt. Bitte folgen Sie den Anweisungen in dieser E-Mail",
+      "invalidEmail": "Diese E-Mail Adresse ist nicht gültig. Bitte versuchen Sie es erneut",
+      "resetPassword": "Passwort zurücksetzen",
+      "userNotFound": "Es wurde kein Nutzer mit dieser E-Mail Adresse gefunden"
+    },
+    "signup": {
+      "emailAlreadyInUse": "Diese E-Mail Adresse wurde bereits registriert. Bitte gehen Sie direkt zum Login",
+      "invalidEmail": "Diese E-Mail Adresse ist nicht gültig. Bitte versuchen Sie es erneut",
+      "passwordNotMatch": "Die Passwörter stimmen nicht überein",
+      "reEnterPassword": "Geben Sie Ihr Passwort erneut ein",
+      "signup": "Benutzerkonto erstellen",
+      "success": "Sie haben Ihr Benutzerkonto erfolgreich erstellt. Bitte loggen Sie sich ein",
+      "weakPassword": "Ihr Passwort ist zu schwach. Bitte wählen Sie ein stärkeres Passwort"
+    },
+    "submit": "Abgeben"
+  },
+  "common": {
+    "back": "Zurück",
+    "cancel": "Abbrechen",
+    "clear": "Löschen",
+    "complete": "vollständig",
+    "continue": "Weiter",
+    "dataset": "Datensatz",
+    "dateFormat": "{{date,  datetime}}",
+    "delete": "Löschen",
+    "description": "Beschreibung",
+    "download": "Download",
+    "email": "E-Mail",
+    "enable": "Aktivieren",
+    "entryId": "Eintragsidentifikation",
+    "finish": "Fertigstellen",
+    "instruction": "Anleitung",
+    "key": "Schlüssel",
+    "lexicon": "Lexikon",
+    "loading": "Ladet",
+    "name": "Name",
+    "next": "Weiter",
+    "ok": "OK",
+    "primary": "primär",
+    "project": "Projekt",
+    "redo": "Wiederholen",
+    "status": "Status",
+    "study": "Studie",
+    "submit": "Abgeben",
+    "video": "Video",
+    "view": "Ansicht"
+  },
+  "components": {
+    "contribute": {
+      "enterTagging": "Start",
+      "noTaggingLeft": "Keine Einheiten übrig",
+      "studyTagging": "Experiment starten",
+      "studyTraining": "Übung zum Experiment starten"
+    },
+    "datasetcontrol": {
+      "deleteEntries": ""
+    },
+    "datasetControl": {
+      "addDataset": "Neuen Datensatz hinzufügen",
+      "deleteDescription": "Sind Sie sicher, dass Sie diesen Eintrag löschen wollen? Wenn Sie dies tun, dann werden auch alle dazugehörigen Annotationen gelöscht",
+      "deleteEntry": "Eintrag löschen",
+      "deleteMultipleEntries": "Sind Sie sicher, dass Sie die ausgewählten Einträge löschen wollen? Wenn Sie dies tun, dann werden auch alle dazugehörigen Annotationen gelöscht",
+      "downloadDescription": "Wollen Sie diesen Datensatz herunterladen? Damit werden alle Einträge heruntergeladen. Die heruntergeladenen Einträge werden im Download Zentrum zur Verfügung gestellt, sobald sie fertig sind",
+      "downloadFailed": "Der ausgewählte Datensatz konnte nicht heruntergeladen werden. Bitte geben Sie dem Administrator Bescheid",
+      "downloadStartedSuccess": "Dateien werden heruntergeladen. Gehen Sie zum Download Zentrum, um die Dateien einzusehen",
+      "downloadTitle": "Datensatz herunterladen anfragen",
+      "uploadEntries": "Einträge hochladen"
+    },
+    "datasetDownload": {
+      "entryDownload": "Herunterladen von Einträgen",
+      "requestDate": "Datum der Anfrage"
+    },
+    "environment": {
+      "title": "Umgebung"
+    },
+    "languageSelector": {
+      "selectLanguage": "Sprache auswählen"
+    },
+    "newProject": {
+      "descriptionDescription": "Bitte geben Sie eine Projektbeschreibung ein",
+      "formLabel": "Neues Projekt erstellen",
+      "nameDescription": "Bitte geben Sie einen Projektnamen ein",
+      "projectExists": "Es existiert bereits ein Projekt mit diesem Namen"
+    },
+    "newStudy": {
+      "completed": "Alle Schritte abgeschlossen - Ihre neue Studie wurde erstellt",
+      "createStudy": "Neue Studie erstellen",
+      "disableClear": "Löschen deaktivieren",
+      "disableSameUserTagging": "Benutzer dürfen ihre eigenen Einträge nicht annotieren",
+      "formTitle": "Informationen zu den Studien",
+      "noDatasets": "Keine Datensätze verfügbar. Erstellen Sie einen Datensatz und geben Sie dem Projekt Zugriff unter Datasätze > Projektzugriff",
+      "sortByEntryID": "Einheiten nach Eintrag ID sortiert anzeigen",
+      "startOver": "Von vorne beginnen",
+      "steps": {
+        "constructTagging": "Annotationslayout erstellen",
+        "selectItems": "Einheiten für Annotation/Übung auswählen",
+        "studyIdentification": "Identifikation der Studie"
+      },
+      "tagsDescription": "Anzahl der gewünschten Annotationen per Eintrag (Standard 1)"
+    },
+    "projectAccess": {
+      "accessFor": "Datasatz Zugriff für ",
+      "datasetName": "Name des Datensatzes",
+      "projectHasAccess": "Projekt hat Zugriff",
+      "selectProject": "Wählen Sie ein Projekt aus, um fortzufahren"
+    },
+    "projectControl": {
+      "deleteDescription": "Sind Sie sicher, dass Sie das ausgewählte Projekt löschen wollen? Wenn Sie dies tun, dann werden auch alle dazugehörigen Studien und Annotationen gelöscht",
+      "deleteStudy": "Studie löschen"
+    },
+    "projectUserPermissions": {
+      "projectAdmin": "Projekt Admin"
+    },
+    "studyControl": {
+      "deleteDescription": "Sind Sie sicher, dass Sie die ausgewählte Studie löschen wollen? Wenn Sie dies tun, dann werden auch alle dazugehörigen Annotationen gelöscht",
+      "deleteStudy": "Studie löschen"
+    },
+    "studyDownload": {
+      "csv": "Annotationen CSV",
+      "downloadDescription": "Wollen Sie die ausgewählte Studie herunterladen? Die Annotationen, alle aufgenommenen Videos und die ursprünglichen Einträge werden heruntergeladen. Dies könnte eine Weile dauern. Dateien zum Herunterladen werden unter Heruntergeladene Studien angezeigt sobald sie fertig sind",
+      "downloadFailed": "Studie konnte nicht heruntergeladen werden. Bitte wenden Sie sich an Ihren Administrator",
+      "downloadStartedSuccess": "Dateien werden heruntergeladen. Dateien zum Herunterladen werden unter Heruntergeladene Studien angezeigt",
+      "downloadTitle": "Studie herunterladen anfragen",
+      "downloadUsers": "Nutzerdaten",
+      "taggedEntries": "Annotierte Einträge"
+    },
+    "successPage": {
+      "succefullyCreated": "Studie erfolgreich erstellt!"
+    },
+    "tagView": {
+      "originalEntry": "Ursprünglicher Eintrag"
+    },
+    "userPermissions": {
+      "contributor": "Teilnehmende/r",
+      "noTrainingTags": "Keine Annotationen verfügbar",
+      "studyAdmin": "Studienadministrator",
+      "trained": "Übung abgeschlossen",
+      "trainingView": "Übungsresultate anschauen"
+    }
+  },
+  "errors": {
+    "csvUpload": "CSV Datei konnte nicht hochgeladen werden. Bitte versuchen Sie es erneut",
+    "datasetCreate": "Datensatz konnte nicht erstellt werden. Bitte versuchen Sie es erneut oder melden Sie dieses Problem",
+    "datasetPermissionUpdate": "Projektzugriff konnte nicht erteilt werden",
+    "datasetsForProject": "Verfügbare Datensätze konnten nicht aufgerufen werden",
+    "entryQuery": "Die Einträge dieses Datensatzes konnten nicht aufgerufen werden",
+    "entryUpload": "Eintrag konnte nicht hochgeladen werden. Bitte versuchen Sie es erneut",
+    "entryUploadComplete": "Der Prozess konnte nicht fertiggestellt werden. Bitte versuchen Sie es erneut",
+    "projectAdminUpdate": "Nutzerberechtigungen konnten nicht aktualisiert werden",
+    "projectCreate": "Das Projekt konnte nicht erstellt werden. Bitte versuchen Sie es erneut",
+    "projectDelete": "Beim Löschvorgang ist ein Fehler aufgetreten",
+    "projectQuery": "Projekte konnten nicht gefunden werden",
+    "studyCreate": "Die neue Studie konnte nicht erstellt werden",
+    "studyDelete": "Die ausgewählte Studie konnte nicht gelöscht werden",
+    "studyExists": "Es konnte nicht festgestellt werden, ob eine Studie mit diesem Namen bereits existiert",
+    "tagComplete": "Die Annotation konnte nicht abgegeben werden. Bitte versuchen Sie es erneut",
+    "tagsQuery": "Die Annotationen konnten nicht aufgerufen werden",
+    "uploadSessionCreate": "Der Hochladeprozess konnte nicht gestartet werden. Bitte versuchen Sie es erneut"
+  },
+  "home": {
+    "backendFailed": "Die Webseite scheint im Moment nicht erreichbar zu sein. Bitte versuchen Sie es später erneut",
+    "logIn": "Bitte loggen Sie sich ein, um fortzufahren",
+    "signedIn": "Sie sind eingeloggt",
+    "welcome": "Willkommen bei SignTag"
+  },
+  "languages": {
+    "en": "English",
+    "es": "Spanish",
+    "de": "German"
+  },
+  "menu": {
+    "contribute": "Experiment",
+    "datasetControl": "Datensatzübersicht",
+    "datasetDownloads": "Heruntergeladene Datensätze",
+    "datasets": "Datensätze",
+    "entryControl": "Eintragsübersicht",
+    "logout": "Logout",
+    "newProject": "Neues Projekt",
+    "newStudy": "Neue Studie",
+    "projectAccess": "Projektzugriff",
+    "projectControl": "Projektübersicht",
+    "projects": "Projekte",
+    "studies": "Studien",
+    "studyControl": "Studienübersicht",
+    "studyDownloads": "Heruntergeladene Studien",
+    "tagInStudy": "Experiment starten",
+    "userPermissions": "Nutzerberechtigungen",
+    "viewTags": "Annotationen anzeigen"
+  },
+  "tag": {
+    "noneLeftExplaination": "Keine Einheiten übrig in {{ studyName }}. Bitte versuchen Sie es später erneut",
+    "noTagsRemaining": "Keine Einheiten übrig",
+    "startRecording": "Aufnahme starten",
+    "stopRecording": "Aufnahme stoppen",
+    "videoRequiredOptional": "Minimum: {{ minimum }}, Optionales Maximum: {{ max }}"
+  }
+}
