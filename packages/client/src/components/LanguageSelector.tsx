@@ -7,7 +7,7 @@ import '../i18n';
 import { useTranslation } from 'react-i18next';
 import { Paper } from '@mui/material';
 
-const languages = ['en', 'es'];
+const languages = ['en', 'es', 'de'];
 
 export const LanguageSelector: React.FC = () => {
   const { t, i18n } = useTranslation();
