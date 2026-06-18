@@ -12,10 +12,13 @@ import { useApolloClient } from '@apollo/client';
 import {
   CreateTagsDocument,
   CreateTrainingSetDocument,
+  CreateCatchTrialsDocument,
   CreateTagsMutationVariables,
   CreateTagsMutation,
   CreateTrainingSetMutation,
-  CreateTrainingSetMutationVariables
+  CreateTrainingSetMutationVariables,
+  CreateCatchTrialsMutation,
+  CreateCatchTrialsMutationVariables
 } from '../../graphql/tag/tag';
 import { useTranslation } from 'react-i18next';
 import { TagFieldFragmentSchema, TagField } from '../../components/tagbuilder/TagProvider';
@@ -30,6 +33,7 @@ export const NewStudy: React.FC = () => {
   const { updateStudies } = useStudy();
   const [trainingSet, setTrainingSet] = useState<string[]>([]);
   const [taggingSet, setTaggingSet] = useState<string[]>([]);
+  const [catchTrialSet, setCatchTrialSet] = useState<string[]>([]);
   const apolloClient = useApolloClient();
   // The different fields that make up the tag schema
   const [tagFields, setTagFields] = useState<TagField[]>([]);
@@ -90,10 +94,19 @@ export const NewStudy: React.FC = () => {
         return;
       }
 
+      // Filter taggingSet to remove IDs that are also in catchTrialSet
+      const filteredTaggingSet = taggingSet.filter((id) => !catchTrialSet.includes(id));
+
       // Create the corresponding tags
       await apolloClient.mutate<CreateTagsMutation, CreateTagsMutationVariables>({
         mutation: CreateTagsDocument,
-        variables: { study: result.data.createStudy._id, entries: taggingSet }
+        variables: { study: result.data.createStudy._id, entries: filteredTaggingSet }
+      });
+
+      // Create the corresponding Catch Trial tags
+      await apolloClient.mutate<CreateCatchTrialsMutation, CreateCatchTrialsMutationVariables>({
+        mutation: CreateCatchTrialsDocument,
+        variables: { study: result.data.createStudy._id, entries: catchTrialSet }
       });
 
       // Create the training set
@@ -138,7 +151,13 @@ export const NewStudy: React.FC = () => {
           />
         );
       case 2:
-        return <TagTrainingComponent setTaggingSet={setTaggingSet} setTrainingSet={setTrainingSet} />;
+        return (
+          <TagTrainingComponent
+            setTaggingSet={setTaggingSet}
+            setTrainingSet={setTrainingSet}
+            setCatchTrialSet={setCatchTrialSet}
+          />
+        );
       default:
         return null;
     }

@@ -40,6 +40,18 @@ export class TagResolver {
     return this.tagService.createTags(study, entries);
   }
 
+  @Mutation(() => [Tag])
+  async createCatchTrials(
+    @Args('study', { type: () => ID }, StudyPipe) study: Study,
+    @Args('entries', { type: () => [ID] }, EntriesPipe) entries: Entry[],
+    @TokenContext() user: TokenPayload
+  ) {
+    if (!(await this.enforcer.enforce(user.user_id, StudyPermissions.CREATE, study._id.toString()))) {
+      throw new UnauthorizedException('User cannot add tags to this study');
+    }
+    return this.tagService.createCatchTrials(study, entries);
+  }
+
   @Mutation(() => Tag, { nullable: true })
   async assignTag(
     @Args('study', { type: () => ID }, StudyPipe) study: Study,
@@ -168,5 +180,10 @@ export class TagResolver {
   @ResolveField(() => Study)
   async study(@Parent() tag: Tag): Promise<Study> {
     return this.studyPipe.transform(tag.study);
+  }
+
+  @Query(() => [Tag])
+  async getCatchTrials(@Args('study', { type: () => ID }, StudyPipe) study: Study): Promise<Tag[]> {
+    return this.tagService.getCatchTrials(study);
   }
 }

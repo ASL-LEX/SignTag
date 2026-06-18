@@ -45,6 +45,10 @@ export class Tag {
   @Prop()
   @Field({ description: 'If the tag is part of a training' })
   training: boolean;
+
+  @Prop()
+  @Field({ description: 'Indicates if the tag is a catch trial' })
+  isCatchTrial: boolean;
 }
 
 export type TagDocument = Tag & Document;

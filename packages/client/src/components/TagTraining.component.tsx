@@ -11,6 +11,7 @@ import { useSnackbar } from '../context/Snackbar.context';
 export interface TagTrainingComponentProps {
   setTrainingSet: Dispatch<SetStateAction<string[]>>;
   setTaggingSet: Dispatch<SetStateAction<string[]>>;
+  setCatchTrialSet: Dispatch<SetStateAction<string[]>>;
 }
 
 export const TagTrainingComponent: React.FC<TagTrainingComponentProps> = (props) => {
@@ -19,6 +20,7 @@ export const TagTrainingComponent: React.FC<TagTrainingComponentProps> = (props)
   const [getDatasetsQuery, getDatasetsResults] = useGetDatasetsByProjectLazyQuery();
   const [trainingSet, setTrainingSet] = useState<string[]>([]);
   const [taggingSet, setTaggingSet] = useState<string[]>([]);
+  const [catchTrialSet, setCatchTrialSet] = useState<string[]>([]);
   const { t } = useTranslation();
   const { pushSnackbarMessage } = useSnackbar();
 
@@ -112,6 +114,24 @@ export const TagTrainingComponent: React.FC<TagTrainingComponentProps> = (props)
           entry={params.row}
         />
       )
+    },
+    {
+      field: 'catchTrial',
+      headerName: 'Catch Trial',
+      width: 200,
+      renderCell: (params) => (
+        <EditSetSwitch
+          startingValue={catchTrialSet.includes(params.row._id)}
+          onLoad={(_entry) => {}}
+          add={(entry) => {
+            setCatchTrialSet([...catchTrialSet, entry._id]);
+          }}
+          remove={(entry) => {
+            setCatchTrialSet(catchTrialSet.filter((entryID) => entryID !== entry._id));
+          }}
+          entry={params.row}
+        />
+      )
     }
   ];
 
@@ -124,6 +144,13 @@ export const TagTrainingComponent: React.FC<TagTrainingComponentProps> = (props)
     const entries = Array.from(new Set(trainingSet));
     props.setTrainingSet(entries);
   }, [trainingSet]);
+
+  useEffect(() => {
+    const entries = Array.from(new Set(catchTrialSet));
+    if (props.setCatchTrialSet) {
+      props.setCatchTrialSet(entries);
+    }
+  }, [catchTrialSet]);
 
   useEffect(() => {
     if (getDatasetsResults.data) {
