@@ -1,90 +1,60 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
+import { useReactMediaRecorder } from 'react-media-recorder';
+
+const mimeType = 'video/webm; codecs=vp9';
 
 export interface VideoRecordInterfaceProps {
-  activeBlob: Blob | null;
-  recordVideo: (blob: Blob | null) => void;
+  activeBlob: { blobURL: string | null; blob: Blob | null };
+  handleVideoRecordCompletion: (blobURL: string, blob: Blob) => void;
   recording: boolean;
 }
 
-export const VideoRecordInterface: React.FC<VideoRecordInterfaceProps> = (props) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-  const [blobs, setBlobs] = useState<Blob[]>([]);
-  const stateRef = useRef<{ blobs: Blob[] }>();
-  stateRef.current = { blobs };
-
-  // On data available, store the blob
-  const handleOnDataAvailable = useCallback(
-    (event: BlobEvent) => {
-      const newBlobs = [...stateRef.current!.blobs, event.data];
-      setBlobs(newBlobs);
-
-      // If the recording is complete, send the blob to the parent
-      if (!props.recording) {
-        props.recordVideo(new Blob(newBlobs, { type: 'video/webm' }));
-      }
+export const VideoRecordInterface: React.FC<VideoRecordInterfaceProps> = ({
+  recording,
+  handleVideoRecordCompletion,
+  activeBlob
+}) => {
+  const videoPreviewRef = useRef<HTMLVideoElement>(null);
+  const recorder = useReactMediaRecorder({
+    video: true,
+    audio: false,
+    mediaRecorderOptions: {
+      mimeType
     },
-    [setBlobs, blobs]
-  );
-
-  const startRecording = async () => {
-    // Clear the blobs
-    setBlobs([]);
-
-    // Create the media recorder
-    // TODO: In the future have audio be an option
-    const stream: MediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-
-    // Setup the preview
-    videoRef.current!.srcObject = stream;
-    videoRef.current!.play();
-
-    // Set the encoding
-    const options = { mimeType: 'video/webm; codecs=vp9' };
-
-    // Create the media recorder
-    let mediaRecorder = new MediaRecorder(stream, options);
-
-    mediaRecorder.ondataavailable = handleOnDataAvailable;
-
-    // Start recording
-    mediaRecorder.start();
-    setMediaRecorder(mediaRecorder);
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorder) {
-      mediaRecorder.stop();
+    onStop: (blobURL, blob) => handleVideoRecordCompletion(blobURL, blob),
+    blobPropertyBag: {
+      type: mimeType
     }
-  };
+  });
 
-  // Handle changes to the recording status
+  // Handles switching between live preview and video playback
   useEffect(() => {
-    if (props.recording) {
-      startRecording();
+    // If in recording mode, show the user the preview
+    if (videoPreviewRef.current && recorder.previewStream && recorder.status == 'recording') {
+      videoPreviewRef.current.srcObject = recorder.previewStream;
+    }
+    // Otherwise, show the user the recording video
+    else if (videoPreviewRef.current && recorder.mediaBlobUrl) {
+      videoPreviewRef.current.src = activeBlob.blobURL || '';
+      videoPreviewRef.current.srcObject = null;
+    }
+  }, [recorder.status, recorder.previewStream, recorder.mediaBlobUrl]);
+
+  // Handle toggling between recording and not recording
+  useEffect(() => {
+    if (recording) {
+      recorder.startRecording();
     } else {
-      stopRecording();
+      recorder.stopRecording();
     }
-  }, [props.recording]);
+  }, [recording]);
 
-  // Control the display based on if an active blob is present
-  useEffect(() => {
-    // If there is no active blob, show the video preview
-    if (!props.activeBlob) {
-      videoRef.current!.style.display = 'block';
-      videoRef.current!.src = '';
-      return;
-    }
-
-    // Otherwise show the recording blobl
-    const blobUrl = URL.createObjectURL(props.activeBlob);
-    videoRef.current!.srcObject = null;
-    videoRef.current!.src = blobUrl;
-  }, [props.activeBlob]);
+  // Handle switching between previews from other videos
+  useEffect(() => {}, [activeBlob]);
 
   return (
     <>
-      <video style={{ minWidth: 500 }} ref={videoRef} controls />
+      <video style={{ minWidth: 500 }} ref={videoPreviewRef} src={recorder.mediaBlobUrl} controls autoPlay loop />
     </>
   );
 };
