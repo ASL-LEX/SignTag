@@ -1,0 +1,33 @@
+name: Epic
+description: "(Maintainers) Track a large body of work made up of multiple issues"
+title: "[Epic]: "
+labels:
+  - epic
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **For maintainer use.**
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What is this epic and what is it trying to achieve?
+      placeholder: Describe the epic at a high level...
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Additional details — scope, related issues/tasks, milestones, dependencies, etc. Markdown is supported.
+      placeholder: |
+        ## Scope
+        - ...
+
+        ## Related issues
+        - ...
+    validations:
+      required: false

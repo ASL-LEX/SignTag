@@ -1,0 +1,42 @@
+name: Technical Improvement
+description: "(Maintainers) Propose a technical improvement, refactor, or infrastructure change"
+title: "[Tech]: "
+labels:
+  - technical-improvement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **For maintainer use.**
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What is the technical improvement being proposed?
+      placeholder: Describe the improvement...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: areas
+    attributes:
+      label: Areas
+      description: Which area(s) of the codebase does this affect?
+      multiple: true
+      options:
+        - Backend
+        - Frontend
+        - Gateway
+        - Infrastructure
+    validations:
+      required: true
+
+  - type: textarea
+    id: justification
+    attributes:
+      label: Justification
+      description: Why is this improvement worth doing? What risk, cost, or limitation does it address?
+      placeholder: Explain the reasoning behind this proposal...
+    validations:
+      required: true

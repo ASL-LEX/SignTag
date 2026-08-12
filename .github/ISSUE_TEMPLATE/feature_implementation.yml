@@ -1,0 +1,45 @@
+name: Feature Implementation
+description: "(Maintainers) Define the implementation details for a planned feature"
+title: "[Implementation]: "
+labels:
+  - implementation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **For maintainer use.** Use this template to scope out how a feature should be built. Technical Details supports full Markdown (code blocks, lists, links, etc.).
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Describe the feature from the user's perspective.
+      placeholder: As a [type of user], I want [goal] so that [benefit].
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe what this feature is and what it should do.
+      placeholder: Describe the feature...
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-details
+    attributes:
+      label: Technical Details
+      description: Provide implementation details — affected components, proposed approach, data model/API changes, edge cases, etc. Markdown is supported.
+      placeholder: |
+        ## Affected areas
+        - ...
+
+        ## Proposed approach
+        - ...
+
+        ## Edge cases / considerations
+        - ...
+    validations:
+      required: false
