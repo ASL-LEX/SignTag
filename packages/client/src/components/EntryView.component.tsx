@@ -43,15 +43,11 @@ const ShowWithCue: React.FC<EntryViewProps> = (props) => {
       <Grid size={2}>
         <Typography variant="body1">{t('components.tagView.originalCue')}</Typography>
       </Grid>
-      <Grid size={10}>
-        {originalCue ? getEntryView({ ...props, entry: originalCue }) : <></>}
-      </Grid>
+      <Grid size={10}>{originalCue ? getEntryView({ ...props, entry: originalCue }) : <></>}</Grid>
       <Grid size={2}>
         <Typography variant="body1">{t('components.tagView.responseToCue')}</Typography>
       </Grid>
-      <Grid size={10}>
-        {getEntryView({ ...props })}
-      </Grid>
+      <Grid size={10}>{getEntryView({ ...props })}</Grid>
     </Grid>
   );
 };
