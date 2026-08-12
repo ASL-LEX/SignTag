@@ -4,8 +4,8 @@ import { Dataset } from '../../dataset/dataset.model';
 @ObjectType()
 export class DatasetProjectPermission {
   @Field(() => Dataset)
-  dataset: string;
+  dataset!: string;
 
   @Field()
-  projectHasAccess: boolean;
+  projectHasAccess!: boolean;
 }

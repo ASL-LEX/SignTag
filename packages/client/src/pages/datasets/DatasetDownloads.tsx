@@ -45,13 +45,13 @@ export const DatasetDownloads: React.FC = () => {
       field: 'datasetName',
       headerName: t('common.dataset'),
       width: 200,
-      valueGetter: (params) => params.row.dataset.name
+      valueGetter: (_value, row) => row.dataset.name
     },
     {
       field: 'date',
       width: 200,
       headerName: t('components.datasetDownload.requestDate'),
-      valueGetter: (params) => t('common.dateFormat', { date: Date.parse(params.row.date) })
+      valueGetter: (_value, row) => t('common.dateFormat', { date: Date.parse(row.date) })
     },
     {
       field: 'status',

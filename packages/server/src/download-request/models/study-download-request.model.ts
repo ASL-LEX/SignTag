@@ -16,21 +16,21 @@ registerEnumType(StudyDownloadField, {
 @ObjectType()
 export class StudyDownloadRequest implements DownloadRequest {
   @Field()
-  _id: string;
+  _id!: string;
 
   @Prop({ required: true })
-  organization: string;
+  organization!: string;
 
   @Prop({ required: true })
   @Field()
-  date: Date;
+  date!: Date;
 
   @Prop({ required: true, enum: DownloadStatus })
   @Field()
-  status: DownloadStatus;
+  status!: DownloadStatus;
 
   @Prop({ required: true })
-  study: string;
+  study!: string;
 
   /** Location in a bucket where the tag data as a CSV should be stored */
   @Prop({ requied: false })
@@ -69,13 +69,13 @@ export class StudyDownloadRequest implements DownloadRequest {
   taggedEntryWebhookPayloadLocation?: string;
 
   @Prop({ required: true })
-  entryZipComplete: boolean;
+  entryZipComplete!: boolean;
 
   @Prop({ required: true })
-  taggedEntryZipComplete: boolean;
+  taggedEntryZipComplete!: boolean;
 
   @Prop({ required: true })
-  verificationCode: string;
+  verificationCode!: string;
 }
 
 export type StudyDownloadRequestDocument = Document & StudyDownloadRequest;

@@ -4,10 +4,10 @@ import { Document } from 'mongoose';
 @Schema()
 export class TrainingSet {
   @Prop()
-  study: string;
+  study!: string;
 
   @Prop()
-  entries: string[];
+  entries!: string[];
 }
 
 export type TrainingSetDocument = TrainingSet & Document;

@@ -14,6 +14,7 @@ on:
       - 'packages/client/**'
     branches:
       - main
+      - develop
 
 jobs:
   lint:
@@ -21,7 +22,7 @@ jobs:
     name: Check for Linting Errors
     defaults:
       run:
-        working-directory: packages/server
+        working-directory: packages/client
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -31,7 +32,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: NPM Install
         run: npm install --only=dev
@@ -53,7 +54,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: NPM Install
         run: npm install
@@ -85,7 +86,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Capture Environment Variables
         run: |
@@ -140,7 +141,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Capture Environment Variables
         run: |
@@ -195,7 +196,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Capture Environment Variables
         run: |

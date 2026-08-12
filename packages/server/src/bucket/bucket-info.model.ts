@@ -12,21 +12,21 @@ export enum BucketType {
  */
 @Schema()
 export class BucketInfo {
-  _id: string;
+  _id!: string;
 
   @Prop()
-  bucketName: string;
+  bucketName!: string;
 
   @Prop({ type: String, enum: BucketType })
-  bucketType: BucketType;
+  bucketType!: BucketType;
 
   /** The GCP Secret Manager name for the bucket credentials */
   @Prop()
-  secretName: string;
+  secretName!: string;
 
   /** Organization the bucket is associated with */
   @Prop()
-  organization: string;
+  organization!: string;
 }
 
 export type BucketInfoDocument = BucketInfo & Document;

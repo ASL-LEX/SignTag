@@ -21,7 +21,7 @@ export const DatasetTable: React.FC<DatasetTableProps> = (props) => {
   const { pushSnackbarMessage } = useSnackbar();
   const [deleteEntryMutation] = useDeleteEntryMutation();
   const confirmation = useConfirmation();
-  const [selectedRows, setSelectedRows] = useState<GridRowId[]>([]);
+  const [selectedRows, setSelectedRows] = useState<readonly GridRowId[]>([]);
   const [paginationModel, setPaginationModel] = useState<{ page: number; pageSize: number }>({ page: 0, pageSize: 10 });
 
   const defaultColumns: GridColDef[] = [

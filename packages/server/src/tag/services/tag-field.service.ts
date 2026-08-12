@@ -14,7 +14,10 @@ import { VideoFieldService } from './video-field.service';
  */
 @Injectable()
 export class TagFieldService {
-  constructor(private readonly configService: ConfigService, private readonly videoFieldService: VideoFieldService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly videoFieldService: VideoFieldService
+  ) {}
 
   async produceField(tagField: TagField): Promise<typeof TagFieldUnion | null> {
     if (!tagField.data) {

@@ -17,6 +17,8 @@ import { UserModule } from './user/user.module';
 import { BucketModule } from './bucket/bucket.module';
 import { DownloadRequestModule } from './download-request/download-request.module';
 import { HealthModule } from './health/health.module';
+import { APP_GUARD } from '@nestjs/core';
+import { FeatureFlagGuard } from './feature-flag/feature-flag.guard';
 
 @Module({
   imports: [
@@ -51,6 +53,12 @@ import { HealthModule } from './health/health.module';
     BucketModule,
     DownloadRequestModule,
     HealthModule
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: FeatureFlagGuard
+    }
   ]
 })
 export class AppModule {}

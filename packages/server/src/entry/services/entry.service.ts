@@ -76,7 +76,7 @@ export class EntryService {
       id = dataset._id.toString();
     }
 
-    return this.entryModel.count({ dataset: id, isTraining: false });
+    return this.entryModel.countDocuments({ dataset: id, isTraining: false });
   }
 
   async exists(entryID: string, dataset: Dataset): Promise<boolean> {

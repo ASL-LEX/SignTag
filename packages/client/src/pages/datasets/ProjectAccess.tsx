@@ -49,13 +49,13 @@ export const ProjectAccess: React.FC = () => {
       field: 'name',
       headerName: t('components.projectAccess.datasetName'),
       width: 200,
-      valueGetter: (params) => params.row.dataset.name
+      valueGetter: (_value, row) => row.dataset.name
     },
     {
       field: 'description',
       headerName: t('common.description'),
       width: 200,
-      valueGetter: (params) => params.row.dataset.description
+      valueGetter: (_value, row) => row.dataset.description
     },
     {
       field: 'access',

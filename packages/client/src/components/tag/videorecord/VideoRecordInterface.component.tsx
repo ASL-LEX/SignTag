@@ -10,7 +10,7 @@ export const VideoRecordInterface: React.FC<VideoRecordInterfaceProps> = (props)
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [blobs, setBlobs] = useState<Blob[]>([]);
-  const stateRef = useRef<{ blobs: Blob[] }>();
+  const stateRef = useRef<{ blobs: Blob[] } | undefined>(undefined);
   stateRef.current = { blobs };
 
   // On data available, store the blob

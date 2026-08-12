@@ -42,7 +42,7 @@ export class ProjectService {
   }
 
   async delete(project: Project): Promise<void> {
-    await this.projectModel.deleteOne({ _id: project._id });
+    await this.projectModel.findByIdAndDelete(project._id);
   }
 
   async findAllForUser(user: TokenPayload, organization: string): Promise<Project[]> {

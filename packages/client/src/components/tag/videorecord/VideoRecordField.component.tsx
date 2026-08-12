@@ -23,12 +23,15 @@ const VideoRecordField: React.FC<ControlProps> = (props) => {
   const [blobs, setBlobs] = useState<(Blob | null)[]>([]);
   const [recording, setRecording] = useState<boolean>(false);
   const [videoFragmentID, setVideoFragmentID] = useState<string[]>([]);
-  const stateRef = useRef<{
-    validVideos: boolean[];
-    blobs: (Blob | null)[];
-    activeIndex: number;
-    videoFragmentID: string[];
-  }>();
+  const stateRef = useRef<
+    | {
+        validVideos: boolean[];
+        blobs: (Blob | null)[];
+        activeIndex: number;
+        videoFragmentID: string[];
+      }
+    | undefined
+  >(undefined);
   stateRef.current = { validVideos, blobs, activeIndex, videoFragmentID };
   const client = useApolloClient();
   const { tag } = useTag();

@@ -8,16 +8,16 @@ import mongoose, { Document } from 'mongoose';
 @Schema()
 export class EntryUpload {
   @Prop({ required: true })
-  session: string;
+  session!: string;
 
   @Prop({ required: true, type: mongoose.Schema.Types.Mixed })
   metadata: any;
 
   @Prop({ required: true })
-  filename: string;
+  filename!: string;
 
   @Prop({ required: true })
-  entryID: string;
+  entryID!: string;
 }
 
 export type EntryUploadDocument = EntryUpload & Document;

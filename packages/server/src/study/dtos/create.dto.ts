@@ -10,10 +10,10 @@ class StudyConfigInput extends OmitType(StudyConfig, [] as const, InputType) {}
 @InputType()
 export class StudyCreate extends OmitType(Study, ['_id', 'project', 'tagSchema', 'studyConfig'] as const, InputType) {
   @Field(() => ID)
-  project: string;
+  project!: string;
 
   @Field()
-  tagSchema: TagSchemaInput;
+  tagSchema!: TagSchemaInput;
 
   @Field({ nullable: true })
   studyConfig?: StudyConfigInput;

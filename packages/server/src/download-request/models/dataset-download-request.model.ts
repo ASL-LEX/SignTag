@@ -15,21 +15,21 @@ registerEnumType(DatasetDownloadField, {
 @ObjectType()
 export class DatasetDownloadRequest implements DownloadRequest {
   @Field()
-  _id: string;
+  _id!: string;
 
   @Prop({ required: true })
-  organization: string;
+  organization!: string;
 
   @Prop({ required: true })
   @Field()
-  date: Date;
+  date!: Date;
 
   @Prop({ required: true, enum: DownloadStatus })
   @Field(() => DownloadStatus)
-  status: DownloadStatus;
+  status!: DownloadStatus;
 
   @Prop({ required: true })
-  dataset: string;
+  dataset!: string;
 
   @Prop({ required: false })
   entryZIPLocation?: string;
@@ -44,10 +44,10 @@ export class DatasetDownloadRequest implements DownloadRequest {
   webhookPayloadLocation?: string;
 
   @Prop({ required: true })
-  entryZipComplete: boolean;
+  entryZipComplete!: boolean;
 
   @Prop({ required: true })
-  verificationCode: string;
+  verificationCode!: string;
 }
 
 export type DatasetDownloadRequestDocument = Document & DatasetDownloadRequest;
