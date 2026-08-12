@@ -10,19 +10,19 @@ export class SignLabRecorded {
   /** The tag the recording is associated with */
   @Prop({ required: true })
   @Field(() => Tag)
-  tag: string;
+  tag!: string;
 
   /** The name of the field within the tag */
   @Prop({ requied: true })
   @Field()
-  fieldName: string;
+  fieldName!: string;
 
   /** The study the entry was recorded as part of */
   @Prop()
-  study: string;
+  study!: string;
 
   @Prop({ required: true })
-  videoNumber: number;
+  videoNumber!: number;
 
   /** The user who made the recording */
   @Prop({ required: false })
@@ -35,26 +35,26 @@ export const SignLabRecordedSchema = SchemaFactory.createForClass(SignLabRecorde
 @ObjectType()
 export class Entry {
   @Field()
-  _id: string;
+  _id!: string;
 
   // TODO: Add GraphQL reference back to organization
   @Prop()
   @Field(() => ID)
-  organization: string;
+  organization!: string;
 
   @Prop({ required: true, trim: true })
   @Field()
-  entryID: string;
+  entryID!: string;
 
   @Prop({ trim: true })
-  bucketLocation: string;
+  bucketLocation!: string;
 
   @Prop({ required: true, trim: true })
   @Field()
-  contentType: string;
+  contentType!: string;
 
   @Prop({ required: true })
-  recordedInSignLab: boolean;
+  recordedInSignLab!: boolean;
 
   @Prop({ type: SignLabRecorded })
   @Field(() => SignLabRecorded, { nullable: true })
@@ -63,27 +63,27 @@ export class Entry {
   // TODO: Add GraphQL reference back to dataset object
   @Prop()
   @Field(() => ID)
-  dataset: string;
+  dataset!: string;
 
   // TODO: Add GraphQL reference back to user object
   @Prop()
   @Field(() => ID)
-  creator: string;
+  creator!: string;
 
   @Prop()
   @Field()
-  dateCreated: Date;
+  dateCreated!: Date;
 
   @Prop({ type: mongoose.Schema.Types.Mixed })
   @Field(() => JSON, { nullable: true })
   meta: any;
 
   @Prop({ required: false })
-  signedURLExpiration: Date;
+  signedURLExpiration!: Date;
 
   @Prop()
   @Field()
-  isTraining: boolean;
+  isTraining!: boolean;
 
   // TODO: Add creator field
 }

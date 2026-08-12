@@ -115,7 +115,7 @@ export const NewStudyJsonForm: React.FC<NewStudyFormProps> = (props) => {
     ...props.newStudy
   };
   const [data, setData] = useState<any>(initialData);
-  const stateRef = useRef<{ data: any }>();
+  const stateRef = useRef<{ data: any } | undefined>(undefined);
   stateRef.current = { data };
 
   const handleChange = async (data: any, errors: ErrorObject[] | undefined) => {

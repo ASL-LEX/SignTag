@@ -6,21 +6,21 @@ import { Document } from 'mongoose';
 @ObjectType()
 export class Dataset {
   @Field(() => ID)
-  _id: string;
+  _id!: string;
 
   @Prop()
-  organization: string;
+  organization!: string;
 
   @Prop({ required: true })
   @Field()
-  name: string;
+  name!: string;
 
   @Prop({ required: true })
   @Field()
-  description: string;
+  description!: string;
 
   @Prop()
-  bucketPrefix: string;
+  bucketPrefix!: string;
 }
 
 export type DatasetDocument = Dataset & Document;

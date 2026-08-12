@@ -8,5 +8,5 @@ export class OrganizationCreate extends OmitType(Organization, ['_id'] as const,
    * available during creation.
    */
   @Field()
-  projectId: string;
+  projectId!: string;
 }

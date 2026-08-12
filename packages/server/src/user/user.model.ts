@@ -4,7 +4,7 @@ import { UserRecord } from 'firebase-admin/auth';
 @ObjectType()
 export class User extends UserRecord {
   @Field()
-  uid: string;
+  uid!: string;
 
   @Field({ nullable: true })
   email?: string;

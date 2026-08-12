@@ -4,11 +4,11 @@ import { User } from '../../user/user.model';
 @ObjectType()
 export class ProjectPermissionModel {
   @Field(() => User)
-  user: string;
+  user!: string;
 
   @Field()
-  isProjectAdmin: boolean;
+  isProjectAdmin!: boolean;
 
   @Field()
-  editable: boolean;
+  editable!: boolean;
 }

@@ -1,9 +1,9 @@
 import { Switch } from '@mui/material';
-import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
 import { DataGrid, GridColDef, GridRenderCellParams, useGridApiContext } from '@mui/x-data-grid';
 import { GridRowModesModel } from '@mui/x-data-grid-pro';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 interface Row {
   id: number;
@@ -19,13 +19,13 @@ interface Table {
 const SwitchEditInputCell: React.FC<GridRenderCellParams> = (props: GridRenderCellParams<any, boolean>) => {
   const { id, value, field, hasFocus } = props;
   const apiRef = useGridApiContext();
-  const ref = useRef<HTMLElement>();
+  const ref = useRef<HTMLElement>(null);
 
   const handleChange = (newValue: boolean) => {
     apiRef.current.setEditCellValue({ id, field, value: newValue });
   };
 
-  useEnhancedEffect(() => {
+  useEffect(() => {
     if (hasFocus && ref.current) {
       const input = ref.current.querySelector<HTMLInputElement>(`input[value="${value}"]`);
       input?.focus();

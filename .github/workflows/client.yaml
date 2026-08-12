@@ -32,7 +32,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: NPM Install
         run: npm install --only=dev
@@ -54,7 +54,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: NPM Install
         run: npm install
@@ -86,7 +86,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Capture Environment Variables
         run: |
@@ -141,7 +141,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Capture Environment Variables
         run: |
@@ -196,7 +196,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Capture Environment Variables
         run: |

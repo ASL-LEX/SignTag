@@ -3,17 +3,17 @@ import { ObjectType, Field } from '@nestjs/graphql';
 @ObjectType()
 export class Permission {
   @Field()
-  owner: boolean;
+  owner!: boolean;
 
   @Field()
-  projectAdmin: boolean;
+  projectAdmin!: boolean;
 
   @Field()
-  studyAdmin: boolean;
+  studyAdmin!: boolean;
 
   @Field()
-  trainedContributor: boolean;
+  trainedContributor!: boolean;
 
   @Field()
-  contributor: boolean;
+  contributor!: boolean;
 }

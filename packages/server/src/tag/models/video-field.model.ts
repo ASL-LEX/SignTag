@@ -6,11 +6,11 @@ import { Document } from 'mongoose';
 @Schema()
 @ObjectType()
 export class VideoField {
-  _id: string;
+  _id!: string;
 
   @Field(() => [Entry])
   @Prop()
-  entries: string[];
+  entries!: string[];
 
   constructor(obj: any) {
     Object.assign(this, obj);

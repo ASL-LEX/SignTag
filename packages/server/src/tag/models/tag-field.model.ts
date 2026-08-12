@@ -36,11 +36,11 @@ export class TagField {
    */
   @Prop({ required: true, enum: TagFieldType })
   @Field(() => TagFieldType)
-  type: TagFieldType;
+  type!: TagFieldType;
 
   @Prop({ required: true })
   @Field()
-  name: string;
+  name!: string;
 
   /**
    * Holds the data itself, this can be an ID referencing a more complex

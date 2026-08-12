@@ -6,22 +6,22 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 @ObjectType()
 export class Project {
   @Field(() => ID)
-  _id: string;
+  _id!: string;
 
   @Prop()
   @Field()
-  name: string;
+  name!: string;
 
   @Prop()
-  organization: string;
-
-  @Prop()
-  @Field()
-  description: string;
+  organization!: string;
 
   @Prop()
   @Field()
-  created: Date;
+  description!: string;
+
+  @Prop()
+  @Field()
+  created!: Date;
 }
 
 export type ProjectDocument = Project & Document;

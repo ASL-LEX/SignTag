@@ -6,19 +6,19 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 @ObjectType()
 export class Organization {
   @Field(() => ID)
-  _id: string;
+  _id!: string;
 
   @Prop()
   @Field()
-  name: string;
+  name!: string;
 
   @Prop()
   @Field({ description: 'Tenant ID in the Identity Platform' })
-  tenantID: string;
+  tenantID!: string;
 
   @Prop()
   @Field({ description: 'URL where the user logs in against' })
-  authURL: string;
+  authURL!: string;
 }
 
 export type OrganizationDocument = Organization & Document;

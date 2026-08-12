@@ -4,23 +4,23 @@ import { User } from '../../user/user.model';
 @ObjectType()
 export class StudyPermissionModel {
   @Field(() => User)
-  user: string;
+  user!: string;
 
   @Field()
-  isStudyAdmin: boolean;
+  isStudyAdmin!: boolean;
 
   @Field()
-  isStudyAdminEditable: boolean;
+  isStudyAdminEditable!: boolean;
 
   @Field()
-  isContributor: boolean;
+  isContributor!: boolean;
 
   @Field()
-  isContributorEditable: boolean;
+  isContributorEditable!: boolean;
 
   @Field()
-  isTrained: boolean;
+  isTrained!: boolean;
 
   @Field()
-  isTrainedEditable: boolean;
+  isTrainedEditable!: boolean;
 }

@@ -9,7 +9,7 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 export class UploadSession {
   @Field(() => ID, { description: 'The ID of the upload session' })
-  _id: string;
+  _id!: string;
 
   // TODO: Add in user
   // @Prop({ required: true })
@@ -17,24 +17,24 @@ export class UploadSession {
 
   @Prop({ required: true })
   @Field()
-  dataset: string;
+  dataset!: string;
 
   @Prop({ required: true })
   @Field()
-  created: Date;
+  created!: Date;
 
   @Prop()
-  bucketPrefix: string;
+  bucketPrefix!: string;
 
   /** URL To the CSV within the bucket storage */
   @Prop({ required: false, type: String })
-  csvURL: string | null;
+  csvURL!: string | null;
 
   @Prop({ required: false, type: String })
-  entryPrefix: string | null;
+  entryPrefix!: string | null;
 
   @Prop()
-  organization: string;
+  organization!: string;
 }
 
 export type UploadSessionDocument = UploadSession & Document;

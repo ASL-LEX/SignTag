@@ -9,19 +9,19 @@ import { TagFieldSchema, TagField } from './tag-field.model';
 @ObjectType()
 export class Tag {
   @Field()
-  _id: string;
+  _id!: string;
 
   @Prop()
   @Field(() => Entry)
-  entry: string;
+  entry!: string;
 
   @Prop()
   @Field(() => Study)
-  study: string;
+  study!: string;
 
   @Prop()
   @Field()
-  complete: boolean;
+  complete!: boolean;
 
   @Prop({ required: false })
   @Field({ nullable: true, description: 'The user assigned to the tag ' })
@@ -36,15 +36,15 @@ export class Tag {
 
   @Prop()
   @Field({ description: 'Way to rank tags based on order to be tagged' })
-  order: number;
+  order!: number;
 
   @Prop()
   @Field({ description: 'If the tag is enabled as part of the study, way to disable certain tags' })
-  enabled: boolean;
+  enabled!: boolean;
 
   @Prop()
   @Field({ description: 'If the tag is part of a training' })
-  training: boolean;
+  training!: boolean;
 }
 
 export type TagDocument = Tag & Document;
