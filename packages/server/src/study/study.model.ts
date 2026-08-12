@@ -10,11 +10,11 @@ import { Layout, JsonSchema as JSONSchema } from '@jsonforms/core';
 export class TagSchema {
   @Prop({ type: mongoose.Schema.Types.Mixed, required: true })
   @Field(() => JSON)
-  dataSchema: JSONSchema;
+  dataSchema!: JSONSchema;
 
   @Prop({ type: mongoose.Schema.Types.Mixed, required: true })
   @Field(() => JSON)
-  uiSchema: Layout;
+  uiSchema!: Layout;
 }
 
 const TagSchemaSchema = SchemaFactory.createForClass(TagSchema);
@@ -60,35 +60,35 @@ const StudyConfigSchema = SchemaFactory.createForClass(StudyConfig);
 @ObjectType()
 export class Study {
   @Field(() => ID)
-  _id: string;
+  _id!: string;
 
   @Prop()
   @Field()
-  name: string;
+  name!: string;
 
   @Prop()
-  organization: string;
-
-  @Prop()
-  @Field()
-  description: string;
+  organization!: string;
 
   @Prop()
   @Field()
-  instructions: string;
+  description!: string;
+
+  @Prop()
+  @Field()
+  instructions!: string;
 
   @Prop({ type: TagSchemaSchema, required: true })
   @Field(() => TagSchema)
-  tagSchema: TagSchema;
+  tagSchema!: TagSchema;
 
   // TODO: Add resolver for project field
   @Prop()
   @Field(() => ID)
-  project: string;
+  project!: string;
 
   @Prop()
   @Field()
-  tagsPerEntry: number;
+  tagsPerEntry!: number;
 
   @Prop({ type: StudyConfigSchema, requried: false })
   @Field(() => StudyConfig, { nullable: true })

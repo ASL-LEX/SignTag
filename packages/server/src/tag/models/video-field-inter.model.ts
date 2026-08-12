@@ -11,26 +11,26 @@ import { Document } from 'mongoose';
 @ObjectType()
 export class VideoFieldIntermediate {
   @Field()
-  _id: string;
+  _id!: string;
 
   /** The tag the video field is a part of */
   @Prop()
-  tag: string;
+  tag!: string;
 
   /** The field of the tag the video field is a part of */
   @Prop()
-  field: string;
+  field!: string;
 
   /** The index of the video field in the tag */
   @Prop()
-  index: number;
+  index!: number;
 
   /** Where within the bucket the video is stored */
   @Prop()
-  bucketLocation: string;
+  bucketLocation!: string;
 
   @Prop()
-  organization: string;
+  organization!: string;
 }
 
 export type VideoFieldIntermediateDocument = VideoFieldIntermediate & Document;

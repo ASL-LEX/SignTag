@@ -20,5 +20,5 @@ export class CreateStudyDownloadRequest extends OmitType(
   InputType
 ) {
   @Field(() => ID)
-  study: string;
+  study!: string;
 }

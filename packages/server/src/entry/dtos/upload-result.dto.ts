@@ -13,7 +13,7 @@ registerEnumType(UploadStatus, {
 @ObjectType()
 export class UploadResult {
   @Field(() => UploadStatus)
-  status: UploadStatus;
+  status!: UploadStatus;
 
   @Field({ nullable: true })
   message?: string;

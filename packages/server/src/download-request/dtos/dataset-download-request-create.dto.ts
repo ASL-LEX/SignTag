@@ -16,5 +16,5 @@ export class CreateDatasetDownloadRequest extends OmitType(
   InputType
 ) {
   @Field(() => ID)
-  dataset: string;
+  dataset!: string;
 }
