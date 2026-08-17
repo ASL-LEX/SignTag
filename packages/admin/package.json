@@ -13,6 +13,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@jsonforms/core": "^3.8.0",
+    "@jsonforms/material-renderers": "^3.8.0",
+    "@jsonforms/react": "^3.8.0",
     "ra-data-json-server": "^5.15.0",
     "ra-data-simple-rest": "^5.15.0",
     "react": "^19.2.8",
