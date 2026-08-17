@@ -1,5 +1,5 @@
-import { Controller, Delete, Post, Put, Get, Query, Response, Body } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Delete, Post, Put, Get, Query, Response, Body, Param, NotFoundException } from '@nestjs/common';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { FeatureFlag } from '../../feature-flag/feature-flag.decorator';
 import { RAQuery } from '../../shared/ra-query.dto';
 import { Response as Res } from 'express';
@@ -39,8 +39,17 @@ export class AdminProjectController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a single project' })
+  @ApiParam({ name: 'id', description: 'ID of the project to retrieve' })
   @FeatureFlag('SIGNTAG_ADMIN_PROJECT_ENDPOINT')
-  async get() {}
+  async get(@Param('id') id: string): Promise<Project> {
+    // TODO: Check permissions
+
+    const project = await this.projectService.findById(id)
+    if (!project) {
+      throw new NotFoundException();
+    }
+    return project;
+  }
 
   @Put(':id')
   @ApiOperation({ summary: 'Update an existing project' })
@@ -50,5 +59,5 @@ export class AdminProjectController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an existing project' })
   @FeatureFlag('SIGNTAG_ADMIN_PROJECT_ENDPOINT')
-  async delete() {}
+  async delete(): Promise<void> {}
 }
