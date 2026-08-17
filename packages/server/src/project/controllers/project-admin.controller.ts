@@ -7,6 +7,8 @@ import { ProjectService } from '../project.service';
 import { makeContentRange } from '@bu-sail/ra-query-core';
 import { ProjectCreateV2 } from '../dtos/create.dto';
 import { Project } from '../project.model';
+import { ProjectUpdateV2 } from '../dtos/update.dto';
+import { ProjectPipe } from '../pipes/project.pipe';
 
 @Controller('api/admin/project')
 @ApiTags('Project (Admin)')
@@ -53,8 +55,12 @@ export class AdminProjectController {
 
   @Put(':id')
   @ApiOperation({ summary: 'Update an existing project' })
+  @ApiParam({ name: 'id', description: 'ID of the project to update', type: String })
   @FeatureFlag('SIGNTAG_ADMIN_PROJECT_ENDPOINT')
-  async update() {}
+  async update(@Param('id', ProjectPipe) project: Project, @Body() update: ProjectUpdateV2) {
+    // TODO; Check permissions
+    return this.projectService.update(project._id, update);
+  }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an existing project' })
