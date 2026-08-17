@@ -1,13 +1,16 @@
-import { BadRequestException, Injectable, Inject } from '@nestjs/common';
+import { BadRequestException, Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Study } from './study.model';
 import { StudyCreate } from './dtos/create.dto';
+import { StudyUpdateV2 } from './dtos/update.dto';
 import { Validator } from 'jsonschema';
 import { Project } from '../project/project.model';
 import { MongooseMiddlewareService } from '../shared/service/mongoose-callback.service';
 import { CASBIN_PROVIDER } from '../permission/casbin.provider';
 import * as casbin from 'casbin';
+import { PaginationResponse } from '@bu-sail/ra-query-core';
+import { RAQuery } from '../shared/ra-query.dto';
 
 @Injectable()
 export class StudyService {
@@ -34,6 +37,29 @@ export class StudyService {
 
   async findAll(project: Project): Promise<Study[]> {
     return this.studyModel.find({ project: project._id.toString() });
+  }
+
+  async get(_query: RAQuery, organizationID: string): Promise<PaginationResponse<Study>> {
+    // TODO: Handle conversion of RAQuery into Mongoose query
+    const studies = await this.studyModel.find({ organization: organizationID });
+
+    // TODO: Include pagination results from proper query usage
+    return {
+      data: studies,
+      count: studies.length,
+      start: 0,
+      end: studies.length
+    };
+  }
+
+  async update(id: string, update: StudyUpdateV2): Promise<Study> {
+    await this.studyModel.updateOne({ _id: id }, { $set: update });
+
+    const updated = await this.findById(id);
+    if (!updated) {
+      throw new NotFoundException();
+    }
+    return updated;
   }
 
   async exists(studyName: string, project: string): Promise<boolean> {

@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { JwtModule } from '../jwt/jwt.module';
 import { PermissionModule } from '../permission/permission.module';
 import { OrganizationModule } from '../organization/organization.module';
+import { AdminStudyController } from './controllers/study-admin.controller';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { OrganizationModule } from '../organization/organization.module';
     OrganizationModule
   ],
   providers: [StudyService, StudyResolver, StudyPipe, StudyCreatePipe],
-  exports: [StudyService, StudyPipe]
+  exports: [StudyService, StudyPipe],
+  controllers: [AdminStudyController]
 })
 export class StudyModule {}
