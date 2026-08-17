@@ -65,5 +65,9 @@ export class AdminProjectController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an existing project' })
   @FeatureFlag('SIGNTAG_ADMIN_PROJECT_ENDPOINT')
-  async delete(): Promise<void> {}
+  @ApiParam({ name: 'id', type: String })
+  async delete(@Param('id', ProjectPipe) project: Project): Promise<Project> {
+    await this.projectService.delete(project);
+    return project;
+  }
 }
