@@ -7,6 +7,8 @@ import { CASBIN_PROVIDER } from '../permission/casbin.provider';
 import * as casbin from 'casbin';
 import { TokenPayload } from 'src/jwt/token.dto';
 import { ProjectPermissions } from 'src/permission/permissions/project';
+import { PaginationResponse } from '@bu-sail/ra-query-core';
+import { RAQuery } from '../shared/ra-query.dto';
 
 @Injectable()
 export class ProjectService {
@@ -26,6 +28,19 @@ export class ProjectService {
     await this.enforcer.addNamedGroupingPolicy('g2', organization, newProject._id.toString());
 
     return newProject;
+  }
+
+  async get(_query: RAQuery, organizationID: string): Promise<PaginationResponse<Project>> {
+    // TODO: Handle conversion of RAQuery into Mongoose query
+    const projects = await this.projectModel.find({ organization: organizationID });
+
+    // TODO: Include pagination results from proper query usage
+    return {
+      data: projects,
+      count: projects.length,
+      start: 0,
+      end: projects.length
+    }
   }
 
   async findById(id: string): Promise<Project | null> {
