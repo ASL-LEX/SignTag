@@ -12,7 +12,7 @@ const App: React.FC = () => {
       <ConfigWrappedInner />
     </ConfigProvider>
   );
-}
+};
 
 const ConfigWrappedInner: React.FC = () => {
   // Setup React Admin data provider

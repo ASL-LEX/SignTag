@@ -22,7 +22,7 @@ export class AdminProjectController {
     // TODO: Check permissions
 
     // TODO: Get organization ID from auth guard
-    return this.projectService.create(newProject, '6a832a3d17d5333f9f601db3')
+    return this.projectService.create(newProject, '6a832a3d17d5333f9f601db3');
   }
 
   @Get()
@@ -46,7 +46,7 @@ export class AdminProjectController {
   async get(@Param('id') id: string): Promise<Project> {
     // TODO: Check permissions
 
-    const project = await this.projectService.findById(id)
+    const project = await this.projectService.findById(id);
     if (!project) {
       throw new NotFoundException();
     }

@@ -41,7 +41,7 @@ export class ProjectService {
       count: projects.length,
       start: 0,
       end: projects.length
-    }
+    };
   }
 
   async findById(id: string): Promise<Project | null> {

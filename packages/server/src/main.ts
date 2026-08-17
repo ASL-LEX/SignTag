@@ -24,7 +24,6 @@ async function bootstrap() {
   // DTO validation
   app.useGlobalPipes(
     new ValidationPipe({
-
       exceptionFactory: (validationErrors: ValidationError[] = []) => {
         console.error(JSON.stringify(validationErrors));
         return new BadRequestException(validationErrors);

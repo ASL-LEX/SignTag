@@ -12,9 +12,5 @@ const devValues: ConfigFields = {
 };
 
 export const ConfigProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  return (
-    <ConfigContext.Provider value={devValues}>
-      {children}
-    </ConfigContext.Provider>
-  );
-}
+  return <ConfigContext.Provider value={devValues}>{children}</ConfigContext.Provider>;
+};

@@ -7,7 +7,7 @@ export interface ConfigFields {
   };
   backend: {
     apiBase: string;
-  }
+  };
 }
 
 export const ConfigContext = createContext<ConfigFields>({} as ConfigFields);
