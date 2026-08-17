@@ -7,6 +7,11 @@ import { ValidationError } from 'class-validator';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 
+  // CORs for React Admin content-range header
+  app.enableCors({
+    exposedHeaders: ['Content-Range']
+  });
+
   // Setup OpenAPI (Swagger)
   const config = new DocumentBuilder()
     .setTitle('SignTag API')

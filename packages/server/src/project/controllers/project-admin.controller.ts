@@ -10,7 +10,7 @@ import { Project } from '../project.model';
 import { ProjectUpdateV2 } from '../dtos/update.dto';
 import { ProjectPipe } from '../pipes/project.pipe';
 
-@Controller('api/admin/project')
+@Controller('api/v1/admin/projects')
 @ApiTags('Project (Admin)')
 export class AdminProjectController {
   constructor(private readonly projectService: ProjectService) {}
@@ -67,6 +67,7 @@ export class AdminProjectController {
   @FeatureFlag('SIGNTAG_ADMIN_PROJECT_ENDPOINT')
   @ApiParam({ name: 'id', type: String })
   async delete(@Param('id', ProjectPipe) project: Project): Promise<Project> {
+    // TODO: Check permissions
     await this.projectService.delete(project);
     return project;
   }

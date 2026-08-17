@@ -1,15 +1,28 @@
-import { Admin, Resource, ListGuesser } from 'react-admin';
-import jsonServerProvider from 'ra-data-json-server';
+import { Admin, Resource } from 'react-admin';
+import { ConfigProvider } from './contexts/Config.provider';
+import { useConfig } from './contexts/Config.context';
+import { createMongoIdDataProvider } from './dataProviders/MongoIdDataProvider';
+import { ListProjects } from './pages/projects/ListProjects.page';
+import { ShowProject } from './pages/projects/ShowProject.page';
+import { CreateProject } from './pages/projects/CreateProject.page';
 
-const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
-
-function App() {
+const App: React.FC = () => {
   return (
-    <Admin dataProvider={dataProvider}>
-      <Resource name="posts" list={ListGuesser} />
-      <Resource name="comments" list={ListGuesser} />
-    </Admin>
+    <ConfigProvider>
+      <ConfigWrappedInner />
+    </ConfigProvider>
   );
 }
+
+const ConfigWrappedInner: React.FC = () => {
+  // Setup React Admin data provider
+  const config = useConfig();
+  const dataProvider = createMongoIdDataProvider(config.backend.apiBase);
+  return (
+    <Admin dataProvider={dataProvider}>
+      <Resource name="projects" list={ListProjects} show={ShowProject} create={CreateProject} />
+    </Admin>
+  );
+};
 
 export default App;
