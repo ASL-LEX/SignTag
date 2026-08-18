@@ -8,6 +8,7 @@ import {
   TabbedForm,
   TextInput
 } from 'react-admin';
+import { JSONFormsInput } from '../../components/formbuilder/JSONFormsInput.component';
 
 export const CreateStudy: React.FC = () => {
   return (
@@ -26,7 +27,9 @@ export const CreateStudy: React.FC = () => {
           <BooleanInput source="studyConfig.disableClear" label="Disable Clear" />
           <BooleanInput source="studyConfig.showPriorCue" label="Show Prior Cue" />
         </TabbedForm.Tab>
-        <TabbedForm.Tab label="Tag Schema">{/* TODO: Build the tag schema editor */}</TabbedForm.Tab>
+        <TabbedForm.Tab label="Tag Schema">
+          <JSONFormsInput source='tagSchema' />
+        </TabbedForm.Tab>
       </TabbedForm>
     </Create>
   );
