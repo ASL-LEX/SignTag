@@ -1,106 +1,10 @@
 import { materialRenderers } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
-import type { JsonFormsCore, JsonSchema, JsonSchema7, UISchemaElement } from '@jsonforms/core';
-import { Card, CardContent } from '@mui/material';
+import type { JsonFormsCore, JsonSchema, UISchemaElement } from '@jsonforms/core';
+import { Card, CardActions, CardContent, CardHeader, IconButton } from '@mui/material';
 import { useMemo, useState } from 'react';
-
-interface JSONFormsSingleFieldProps {
-}
-
-/** The data this component tracks for a single tag field. */
-interface FieldFormData {
-  name?: string;
-  description?: string;
-  fieldType: string;
-  fieldOptions: { [property: string]: unknown };
-}
-
-/**
- * Definition of the additional (type-specific) properties, UI elements, and required
- * fields for a single tag field type. Mirrors the `customFields` / `customUISchema` /
- * required list produced by each provider in packages/client's TagFormBuilder.
- */
-interface FieldTypeConfig {
-  properties: { [property: string]: JsonSchema7 };
-  uiElements: UISchemaElement[];
-  required: string[];
-}
-
-/**
- * The field types available, matching the providers offered by the client's
- * TagFormBuilder (packages/client/src/components/tagbuilder). ASL-LEX and Video Record
- * are omitted here since they depend on live lexicon/dataset lookups the admin package
- * does not yet have access to.
- */
-const FIELD_TYPES: { [fieldKind: string]: FieldTypeConfig } = {
-  'Free Text': {
-    properties: {},
-    uiElements: [],
-    required: []
-  },
-  'Numeric': {
-    properties: {},
-    uiElements: [],
-    required: []
-  },
-  'True/False Option': {
-    properties: {},
-    uiElements: [],
-    required: []
-  },
-  'Slider': {
-    properties: {
-      minimum: { type: 'number', description: 'The minimum value of the slider' },
-      maximum: { type: 'number', description: 'The maximum value of the slider' },
-      stepSize: { type: 'number', description: 'The step size of the slider' }
-    },
-    uiElements: [
-      { type: 'Control', scope: '#/properties/fieldOptions/properties/minimum' },
-      { type: 'Control', scope: '#/properties/fieldOptions/properties/maximum' },
-      { type: 'Control', scope: '#/properties/fieldOptions/properties/stepSize' }
-    ],
-    required: ['minimum', 'maximum']
-  },
-  'Categorical': {
-    properties: {
-      userOptions: { type: 'array', items: { type: 'string' } }
-    },
-    uiElements: [
-      {
-        type: 'Control',
-        scope: '#/properties/fieldOptions/properties/userOptions',
-        options: { customType: 'file-list' }
-      }
-    ],
-    required: ['userOptions']
-  },
-  'List of Video Options': {
-    properties: {
-      allowCustomLabels: { type: 'boolean' },
-      userVideoParameters: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            videoURL: { type: 'string' },
-            code: { type: 'string' },
-            searchTerm: { type: 'string' }
-          },
-          required: ['videoURL', 'code', 'searchTerm']
-        }
-      }
-    },
-    uiElements: [
-      { type: 'Control', scope: '#/properties/fieldOptions/properties/allowCustomLabels' },
-      {
-        type: 'Control',
-        scope: '#/properties/fieldOptions/properties/userVideoParameters',
-        options: { customType: 'video-option-upload' }
-      }
-    ],
-    required: ['userVideoParameters']
-  }
-};
+import { FIELD_TYPES, type FieldFormData } from './fields';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const DEFAULT_FIELD_TYPE = 'Free Text';
 
@@ -138,7 +42,7 @@ const buildSchema = (fieldType: string): { schema: JsonSchema; uischema: UISchem
     required: ['name', 'description', 'fieldType']
   };
 
-  const uischema: UISchemaElement = {
+  const uischema = {
     type: 'VerticalLayout',
     elements: [
       {
@@ -148,23 +52,27 @@ const buildSchema = (fieldType: string): { schema: JsonSchema; uischema: UISchem
           { type: 'Control', scope: '#/properties/description' },
           { type: 'Control', scope: '#/properties/fieldType' }
         ]
-      },
-      ...(config.uiElements.length > 0
-        ? [
-            {
-              type: 'Group',
-              label: fieldType,
-              elements: config.uiElements
-            }
-          ]
-        : [])
+      }
     ]
-  } as UISchemaElement;
+  };
 
-  return { schema, uischema };
+  // If there are additional options for the field, add them to the UI
+  if (config.uiElements.length > 0) {
+    uischema.elements.push({
+      type: 'Group',
+      label: fieldType,
+      elements: config.uiElements
+    } as any);
+  }
+
+  return { schema, uischema: uischema as UISchemaElement };
 };
 
-export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = () => {
+interface JSONFormsSingleFieldProps {
+  deleteField: () => void;
+}
+
+export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = (props) => {
   const [data, setData] = useState<FieldFormData>({ fieldType: DEFAULT_FIELD_TYPE, fieldOptions: {} });
 
   const { schema, uischema } = useMemo(() => buildSchema(data.fieldType || DEFAULT_FIELD_TYPE), [data.fieldType]);
@@ -182,6 +90,7 @@ export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = () => {
 
   return (
     <Card>
+      <CardHeader title={data.name ? data.name : 'Incomplete'} />
       <CardContent>
         <JsonForms
           schema={schema}
@@ -191,6 +100,11 @@ export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = () => {
           onChange={handleChange}
         />
       </CardContent>
+      <CardActions>
+        <IconButton onClick={props.deleteField}>
+          <DeleteIcon />
+        </IconButton>
+      </CardActions>
     </Card>
   );
 };
