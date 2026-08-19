@@ -3,7 +3,8 @@ import { JsonForms } from '@jsonforms/react';
 import type { JsonFormsCore, JsonSchema, UISchemaElement } from '@jsonforms/core';
 import { Card, CardActions, CardContent, CardHeader, IconButton } from '@mui/material';
 import { useMemo, useState } from 'react';
-import { FIELD_TYPES, type FieldFormData } from './fields';
+import type { ErrorObject } from 'ajv';
+import { FIELD_TYPES, type FieldFormData, type FieldValidationErrors } from './fields';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const DEFAULT_FIELD_TYPE = 'Free Text';
@@ -68,6 +69,21 @@ const buildSchema = (fieldType: string): { schema: JsonSchema; uischema: UISchem
   return { schema, uischema: uischema as UISchemaElement };
 };
 
+/**
+ * Converts the react-admin-shaped errors returned by a `FormFragment`'s `validate` into
+ * the ajv `ErrorObject` shape JsonForms expects via `additionalErrors`, so type-specific
+ * checks (e.g. a Slider's minimum being less than its maximum) surface on the relevant
+ * control alongside JsonForms' own schema-driven errors.
+ */
+const buildAdditionalErrors = (errors: FieldValidationErrors): ErrorObject[] =>
+  Object.entries(errors).map(([property, message]) => ({
+    keyword: 'custom',
+    dataPath: `.fieldOptions.${property}`,
+    schemaPath: '',
+    params: {},
+    message
+  }));
+
 interface JSONFormsSingleFieldProps {
   deleteField: () => void;
 }
@@ -76,6 +92,11 @@ export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = (props)
   const [data, setData] = useState<FieldFormData>({ fieldType: DEFAULT_FIELD_TYPE, fieldOptions: {} });
 
   const { schema, uischema } = useMemo(() => buildSchema(data.fieldType || DEFAULT_FIELD_TYPE), [data.fieldType]);
+
+  const additionalErrors = useMemo(
+    () => buildAdditionalErrors(FIELD_TYPES[data.fieldType || DEFAULT_FIELD_TYPE].validate(data.fieldOptions)),
+    [data.fieldType, data.fieldOptions]
+  );
 
   const handleChange = ({ data: newData }: Pick<JsonFormsCore, 'data' | 'errors'>) => {
     // Reset the type-specific fields whenever the field type changes, since they no
@@ -98,6 +119,7 @@ export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = (props)
           renderers={materialRenderers}
           data={data}
           onChange={handleChange}
+          additionalErrors={additionalErrors}
         />
       </CardContent>
       <CardActions>
