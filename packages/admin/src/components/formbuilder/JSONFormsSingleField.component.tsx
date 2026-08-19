@@ -14,7 +14,7 @@ const DEFAULT_FIELD_TYPE = 'Free Text';
  * type-specific fields are nested under the `fieldOptions` sub object.
  */
 const buildSchema = (fieldType: string): { schema: JsonSchema; uischema: UISchemaElement } => {
-  const config = FIELD_TYPES[fieldType];
+  const optionsSchema = FIELD_TYPES[fieldType].getOptionsSchema();
 
   const schema: JsonSchema = {
     type: 'object',
@@ -35,8 +35,8 @@ const buildSchema = (fieldType: string): { schema: JsonSchema; uischema: UISchem
       },
       fieldOptions: {
         type: 'object',
-        properties: config.properties,
-        required: config.required
+        properties: optionsSchema.properties,
+        required: optionsSchema.required
       }
     },
     required: ['name', 'description', 'fieldType']
@@ -57,11 +57,11 @@ const buildSchema = (fieldType: string): { schema: JsonSchema; uischema: UISchem
   };
 
   // If there are additional options for the field, add them to the UI
-  if (config.uiElements.length > 0) {
+  if (optionsSchema.uiElements.length > 0) {
     uischema.elements.push({
       type: 'Group',
       label: fieldType,
-      elements: config.uiElements
+      elements: optionsSchema.uiElements
     } as any);
   }
 
@@ -81,7 +81,7 @@ export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = (props)
     // Reset the type-specific fields whenever the field type changes, since they no
     // longer correspond to the newly selected type's schema.
     if (newData.fieldType !== data.fieldType) {
-      setData({ ...newData, fieldOptions: {} });
+      setData({ ...newData, fieldOptions: FIELD_TYPES[newData.fieldType].getDefaultOptions() });
       return;
     }
 
