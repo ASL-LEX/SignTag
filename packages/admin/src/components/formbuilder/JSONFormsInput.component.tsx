@@ -5,7 +5,7 @@ import { JSONFormsSingleField } from './JSONFormsSingleField.component';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-export const JSONFormsInput: React.FC<InputProps> = (_props) => {
+export const JSONFormsInput: React.FC<InputProps> = (props) => {
 
   const [tagFields, setTagFields] = useState<string[]>([]);
 
@@ -23,8 +23,20 @@ export const JSONFormsInput: React.FC<InputProps> = (_props) => {
         <Button variant='contained' endIcon={<AddIcon />} sx={{ maxWidth: 150 }} onClick={() => addTagField(uuidv4())}>
           Add Field
         </Button>
-        <Stack spacing={2}>
-          {tagFields.map(tagField => <JSONFormsSingleField key={tagField} deleteField={() => removeTagField(tagField)}/> )}
+
+        <Stack direction='row'>
+          {/* Each field in the form */}
+          <Stack spacing={2}>
+            {tagFields.map(tagField => (
+              <JSONFormsSingleField
+                key={tagField}
+                source={`${props.source}.${tagField}`}
+                deleteField={() => removeTagField(tagField)}
+              />
+            ))}
+          </Stack>
+
+          {/* Preview of the form */}
         </Stack>
       </Stack>
     </>

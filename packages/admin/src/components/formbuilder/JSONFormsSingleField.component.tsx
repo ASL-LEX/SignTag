@@ -1,8 +1,9 @@
 import { materialRenderers } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
 import type { JsonFormsCore, JsonSchema, UISchemaElement } from '@jsonforms/core';
-import { Card, CardActions, CardContent, CardHeader, IconButton } from '@mui/material';
+import { Card, CardActions, CardContent, CardHeader, FormHelperText, IconButton } from '@mui/material';
 import { useMemo, useState } from 'react';
+import { useInput } from 'react-admin';
 import type { ErrorObject } from 'ajv';
 import { FIELD_TYPES, type FieldFormData, type FieldValidationErrors } from './fields';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -85,28 +86,51 @@ const buildAdditionalErrors = (errors: FieldValidationErrors): ErrorObject[] =>
   }));
 
 interface JSONFormsSingleFieldProps {
+  /** The path this field's generated schema fragment is reported to react-admin under. */
+  source: string;
   deleteField: () => void;
 }
 
-export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = (props) => {
-  const [data, setData] = useState<FieldFormData>({ fieldType: DEFAULT_FIELD_TYPE, fieldOptions: {} });
+const INITIAL_DATA: FieldFormData = { fieldType: DEFAULT_FIELD_TYPE, fieldOptions: {} };
 
+export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = (props) => {
+  const [data, setData] = useState<FieldFormData>(INITIAL_DATA);
   const { schema, uischema } = useMemo(() => buildSchema(data.fieldType || DEFAULT_FIELD_TYPE), [data.fieldType]);
 
-  const additionalErrors = useMemo(
-    () => buildAdditionalErrors(FIELD_TYPES[data.fieldType || DEFAULT_FIELD_TYPE].validate(data.fieldOptions)),
+
+  const validationErrors = useMemo(
+    () => FIELD_TYPES[data.fieldType || DEFAULT_FIELD_TYPE].validate(data.fieldOptions),
     [data.fieldType, data.fieldOptions]
   );
 
-  const handleChange = ({ data: newData }: Pick<JsonFormsCore, 'data' | 'errors'>) => {
-    // Reset the type-specific fields whenever the field type changes, since they no
-    // longer correspond to the newly selected type's schema.
-    if (newData.fieldType !== data.fieldType) {
-      setData({ ...newData, fieldOptions: FIELD_TYPES[newData.fieldType].getDefaultOptions() });
-      return;
-    }
+  // Validation function for the input as a whole, used to propogate errors up to React Admin
+  const validate = () => {
+    const messages = Object.values(validationErrors);
+    return messages.length > 0 ? messages.join('; ') : undefined;
+  };
 
-    setData(newData);
+  // Handle the React Admin Input implementation
+  const { field, fieldState } = useInput({
+    source: props.source,
+    defaultValue: FIELD_TYPES[DEFAULT_FIELD_TYPE].buildSchemaFragment(INITIAL_DATA),
+    validate
+  });
+
+  // Errors related to the field form, like a Slider whose maximum value is less than the minimum
+  const additionalErrors = useMemo(() => buildAdditionalErrors(validationErrors), [validationErrors]);
+
+  const handleChange = ({ data: newData }: Pick<JsonFormsCore, 'data' | 'errors'>) => {
+    // Check if the type has changed, if so update form fields
+    const resolvedData =
+      newData.fieldType !== data.fieldType
+        ? { ...newData, fieldOptions: FIELD_TYPES[newData.fieldType].getDefaultOptions() }
+        : (newData as FieldFormData);
+
+    // Update the stored data itself
+    setData(resolvedData);
+
+    // Pass the data up through React Admin
+    field.onChange(FIELD_TYPES[resolvedData.fieldType || DEFAULT_FIELD_TYPE].buildSchemaFragment(resolvedData));
   };
 
   return (
@@ -121,6 +145,7 @@ export const JSONFormsSingleField: React.FC<JSONFormsSingleFieldProps> = (props)
           onChange={handleChange}
           additionalErrors={additionalErrors}
         />
+        {fieldState.invalid && <FormHelperText error>{fieldState.error?.message}</FormHelperText>}
       </CardContent>
       <CardActions>
         <IconButton onClick={props.deleteField}>
