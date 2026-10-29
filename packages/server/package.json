@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
-    "@apollo/subgraph": "^2.14.3",
+    "@apollo/subgraph": "2.14.3",
     "@as-integrations/express5": "^1.1.2",
     "@bu-sail/ra-query-core": "^0.1.2",
     "@google-cloud/run": "^4.0.0",
