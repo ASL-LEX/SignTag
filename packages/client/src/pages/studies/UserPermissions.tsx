@@ -4,15 +4,18 @@ import { useStudy } from '../../context/Study.context';
 import { Study, StudyPermissionModel } from '../../graphql/graphql';
 import { useAuth } from '../../context/Auth.context';
 import {
+  GetStudyPermissionsDocument,
+  GetStudyPermissionsQuery,
   useGetStudyPermissionsQuery,
   useGrantStudyAdminMutation,
   useGrantContributorMutation,
   useGrantTrainedContributorMutation
 } from '../../graphql/permission/permission';
-import { useEffect, useState } from 'react';
+import { useApolloClient } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as firebaseauth from '@firebase/auth';
+import { useSnackbar } from '../../context/Snackbar.context';
 
 export const StudyUserPermissions: React.FC = () => {
   const { study } = useStudy();
@@ -26,92 +29,132 @@ export const StudyUserPermissions: React.FC = () => {
   );
 };
 
+type PermissionChanges = Partial<Omit<StudyPermissionModel, 'user'>>;
+
 interface EditSwitchProps {
   study: Study;
   permission: StudyPermissionModel;
   currentUser: firebaseauth.User;
+  /** Applies changes to the cached permissions for the given user */
+  updatePermission: (uid: string, changes: PermissionChanges) => void;
   refetch: () => void;
 }
 
-const EditStudyAdminSwitch: React.FC<EditSwitchProps> = (props) => {
-  const [grantStudyAdmin, grantStudyAdminResults] = useGrantStudyAdminMutation();
+/**
+ * Optimistically applies the change, then runs the mutation. If the mutation
+ * fails the original values are restored and an error is shown.
+ */
+const useOptimisticToggle = (props: EditSwitchProps) => {
+  const { pushSnackbarMessage } = useSnackbar();
+  const { t } = useTranslation();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    grantStudyAdmin({
-      variables: {
-        study: props.study._id,
-        user: props.permission.user.uid,
-        isAdmin: event.target.checked
-      }
-    });
+  return async (changes: PermissionChanges, mutate: () => Promise<unknown>) => {
+    const uid = props.permission.user.uid;
+    const previous = Object.fromEntries(
+      Object.keys(changes).map((key) => [key, props.permission[key as keyof PermissionChanges]])
+    ) as PermissionChanges;
+
+    props.updatePermission(uid, changes);
+    try {
+      await mutate();
+      return true;
+    } catch (_error) {
+      props.updatePermission(uid, previous);
+      pushSnackbarMessage(t('errors.projectAdminUpdate'), 'error');
+      return false;
+    }
   };
+};
 
-  useEffect(() => {
-    if (grantStudyAdminResults.data) {
+const EditStudyAdminSwitch: React.FC<EditSwitchProps> = (props) => {
+  const [grantStudyAdmin, { loading }] = useGrantStudyAdminMutation();
+  const toggle = useOptimisticToggle(props);
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isAdmin = event.target.checked;
+    const mutate = () =>
+      grantStudyAdmin({
+        variables: {
+          study: props.study._id,
+          user: props.permission.user.uid,
+          isAdmin
+        }
+      });
+
+    if (isAdmin) {
+      // Study admins are contributors through the role hierarchy, and that cannot be removed separately
+      await toggle({ isStudyAdmin: true, isContributor: true, isContributorEditable: false }, mutate);
+      return;
+    }
+
+    // Removing study admin leaves any direct contributor role in place, which the client
+    // cannot see, so reload the permissions to get the correct contributor state
+    const succeeded = await toggle({ isStudyAdmin: false, isContributorEditable: true }, mutate);
+    if (succeeded) {
       props.refetch();
     }
-  }, [grantStudyAdminResults]);
+  };
 
   return (
     <Switch
       checked={props.permission.isStudyAdmin}
-      disabled={!props.permission.isStudyAdminEditable || props.permission.user.uid === props.currentUser.uid}
+      disabled={
+        loading || !props.permission.isStudyAdminEditable || props.permission.user.uid === props.currentUser.uid
+      }
       onChange={handleChange}
     />
   );
 };
 
 const EditContributorSwitch: React.FC<EditSwitchProps> = (props) => {
-  const [grantContributor, grantContributorResults] = useGrantContributorMutation();
+  const [grantContributor, { loading }] = useGrantContributorMutation();
+  const toggle = useOptimisticToggle(props);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    grantContributor({
-      variables: {
-        study: props.study._id,
-        user: props.permission.user.uid,
-        isContributor: event.target.checked
-      }
-    });
+    const isContributor = event.target.checked;
+    toggle({ isContributor }, () =>
+      grantContributor({
+        variables: {
+          study: props.study._id,
+          user: props.permission.user.uid,
+          isContributor
+        }
+      })
+    );
   };
-
-  useEffect(() => {
-    if (grantContributorResults.data) {
-      props.refetch();
-    }
-  }, [grantContributorResults]);
 
   return (
     <Switch
       checked={props.permission.isContributor}
-      disabled={!props.permission.isContributorEditable || props.permission.user.uid === props.currentUser.uid}
+      disabled={
+        loading || !props.permission.isContributorEditable || props.permission.user.uid === props.currentUser.uid
+      }
       onChange={handleChange}
     />
   );
 };
 
 const EditTrainedSwitch: React.FC<EditSwitchProps> = (props) => {
-  const [grantTrainedContributor, grantTrainedContributorResults] = useGrantTrainedContributorMutation();
+  const [grantTrainedContributor, { loading }] = useGrantTrainedContributorMutation();
+  const toggle = useOptimisticToggle(props);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    grantTrainedContributor({
-      variables: {
-        study: props.study._id,
-        user: props.permission.user.uid,
-        isTrained: event.target.checked
-      }
-    });
+    const isTrained = event.target.checked;
+    toggle({ isTrained }, () =>
+      grantTrainedContributor({
+        variables: {
+          study: props.study._id,
+          user: props.permission.user.uid,
+          isTrained
+        }
+      })
+    );
   };
-
-  useEffect(() => {
-    if (grantTrainedContributorResults.data) {
-      props.refetch();
-    }
-  }, [grantTrainedContributorResults]);
 
   return (
     <Switch
       checked={props.permission.isTrained}
-      disabled={!props.permission.isTrainedEditable}
+      disabled={loading || !props.permission.isTrainedEditable}
       onChange={handleChange}
     />
   );
@@ -150,15 +193,23 @@ const UserPermissionTable: React.FC<{ study: Study }> = ({ study }) => {
       study: study._id
     }
   });
+  const apolloClient = useApolloClient();
 
-  const [permissions, setPermissions] = useState<StudyPermissionModel[]>([]);
+  const permissions = data?.getStudyPermissions ?? [];
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (data) {
-      setPermissions(data.getStudyPermissions);
-    }
-  }, [data]);
+  // Edits the cached query result directly so toggles do not need to refetch the permissions
+  const updatePermission = (uid: string, changes: PermissionChanges) => {
+    apolloClient.cache.updateQuery<GetStudyPermissionsQuery>(
+      { query: GetStudyPermissionsDocument, variables: { study: study._id } },
+      (cached) =>
+        cached && {
+          getStudyPermissions: cached.getStudyPermissions.map((permission) =>
+            permission.user.uid === uid ? { ...permission, ...changes } : permission
+          )
+        }
+    );
+  };
 
   const columns: GridColDef[] = [
     {
@@ -174,7 +225,15 @@ const UserPermissionTable: React.FC<{ study: Study }> = ({ study }) => {
       headerName: t('components.userPermissions.studyAdmin'),
       valueGetter: (_value, row) => row.isStudyAdmin,
       renderCell: (params: GridRenderCellParams) => {
-        return <EditStudyAdminSwitch permission={params.row} currentUser={user!} study={study} refetch={refetch} />;
+        return (
+          <EditStudyAdminSwitch
+            permission={params.row}
+            currentUser={user!}
+            study={study}
+            updatePermission={updatePermission}
+            refetch={refetch}
+          />
+        );
       },
       editable: false,
       flex: 1
@@ -184,7 +243,15 @@ const UserPermissionTable: React.FC<{ study: Study }> = ({ study }) => {
       headerName: t('components.userPermissions.contributor'),
       valueGetter: (_value, row) => row.isContributor,
       renderCell: (params: GridRenderCellParams) => {
-        return <EditContributorSwitch permission={params.row} currentUser={user!} study={study} refetch={refetch} />;
+        return (
+          <EditContributorSwitch
+            permission={params.row}
+            currentUser={user!}
+            study={study}
+            updatePermission={updatePermission}
+            refetch={refetch}
+          />
+        );
       },
       editable: false,
       flex: 1
@@ -194,7 +261,15 @@ const UserPermissionTable: React.FC<{ study: Study }> = ({ study }) => {
       headerName: t('components.userPermissions.trained'),
       valueGetter: (_value, row) => row.isTrained,
       renderCell: (params: GridRenderCellParams) => {
-        return <EditTrainedSwitch permission={params.row} currentUser={user!} study={study} refetch={refetch} />;
+        return (
+          <EditTrainedSwitch
+            permission={params.row}
+            currentUser={user!}
+            study={study}
+            updatePermission={updatePermission}
+            refetch={refetch}
+          />
+        );
       },
       editable: false,
       flex: 1
