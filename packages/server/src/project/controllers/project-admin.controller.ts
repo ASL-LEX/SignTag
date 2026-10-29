@@ -1,4 +1,19 @@
-import { Controller, Delete, Post, Put, Get, Query, Response, Body, Param, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Post,
+  Put,
+  Get,
+  Query,
+  Response,
+  Body,
+  Param,
+  NotFoundException,
+  UsePipes,
+  ValidationPipe,
+  BadRequestException
+} from '@nestjs/common';
+import { ValidationError } from 'class-validator';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { FeatureFlag } from '../../feature-flag/feature-flag.decorator';
 import { RAQuery } from '../../shared/ra-query.dto';
@@ -12,6 +27,16 @@ import { ProjectPipe } from '../pipes/project.pipe';
 
 @Controller('api/v1/admin/projects')
 @ApiTags('Project (Admin)')
+@UsePipes(
+  new ValidationPipe({
+    exceptionFactory: (validationErrors: ValidationError[] = []) => {
+      console.error(JSON.stringify(validationErrors));
+      return new BadRequestException(validationErrors);
+    },
+    transform: true,
+    whitelist: true
+  })
+)
 export class AdminProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
