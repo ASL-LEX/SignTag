@@ -32,7 +32,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24
 
       - name: NPM Install
         run: npm install --only=dev
@@ -54,7 +54,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24
 
       - name: NPM Install
         run: npm install
