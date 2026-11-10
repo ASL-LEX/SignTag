@@ -32,7 +32,6 @@ export const AutocompleteProvider: React.FC<TagFieldProviderProps> = (props) => 
         type: 'Control',
         scope: `#/properties/${data.fieldName}`,
         options: {
-          customType: 'asl-lex',
           allowCustomLabels: data.allowCustomLabels,
           showUnfocusedDescription: true
         }
