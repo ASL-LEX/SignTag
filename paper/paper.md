@@ -6,8 +6,10 @@ authors:
     affiliation: 1
   - name: Kaj Kraus
     affiliation: 1
+    orcid: 0000-0001-8662-9544
   - name: Naomi Caselli
     affiliation: 1
+    orcid: 0000-0002-6602-4203
 affiliations: 
   - name: Boston University
     index: 1
